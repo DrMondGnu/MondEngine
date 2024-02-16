@@ -5,7 +5,7 @@
 #include "engine/log.h"
 
 
-TEST(GetOneTest, HandlesWrongOutput) {
+TEST(LogInitTest, HandlesUninitializedLoggers) {
     mondengine::Log::init();
     EXPECT_TRUE(mondengine::Log::get_mond_engine_logger() != nullptr);
     ASSERT_TRUE(mondengine::Log::get_app_logger() != nullptr);
