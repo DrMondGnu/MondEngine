@@ -1,5 +1,6 @@
-#ifndef MOND_ENGINE_LIBRARY_H
-#define MOND_ENGINE_LIBRARY_H
+#ifndef MONDENGINE_LIBRARY_H
+#define MONDENGINE_LIBRARY_H
+#include "types.h"
 
 #ifdef MOND_ENGINE_COMPILE
     #define MOND_API __declspec(dllexport)
@@ -9,4 +10,4 @@
     #define MOND_API
 #endif
 
-#endif //MOND_ENGINE_LIBRARY_H
+#endif //MONDENGINE_LIBRARY_H
