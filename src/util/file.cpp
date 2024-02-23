@@ -14,7 +14,7 @@ namespace mondengine::file {
         try
         {
             fileReader.open(filename);
-            stringstream << fileReader.rdbuf();
+            stringstream << fileReader.rdbuf(); // TODO: Change to throw error instead of catching it
             fileReader.close();
         }
         catch(std::ifstream::failure &e)
@@ -22,6 +22,7 @@ namespace mondengine::file {
             MOE_ERROR("Error reading file {}: {}", filename, e.what());
             return nullptr;
         }
+
         return stringstream.str().c_str();
     }
 }

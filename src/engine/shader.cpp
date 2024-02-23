@@ -5,9 +5,13 @@
 #include "engine/shader.h"
 
 namespace mondengine {
-    Shader::Shader(const char* fShaderFile, const char* vShaderFile)
+    Shader::Shader(const char *fShaderFile, const char *vShaderFile)
     {
         MEcstr fShaderString = file::read_file(fShaderFile);
+        if (fShaderFile == nullptr)
+        {
+
+        }
         MEcstr vShaderString = file::read_file(vShaderFile);
 
     }
