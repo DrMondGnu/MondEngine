@@ -19,6 +19,9 @@ find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
 
+# GLM
+include_directories(libs/glm)
+
 # Shared Lib
 add_library(MondEngine SHARED
         src/engine/log.cpp

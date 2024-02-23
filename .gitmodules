@@ -1,0 +1,6 @@
+[submodule "spdlog"]
+	path = spdlog
+	url = ./libs/spdlog/
+[submodule "libs/spdlog"]
+	path = libs/spdlog
+	url = ./libs/spdlog
