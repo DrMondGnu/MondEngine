@@ -1,6 +1,6 @@
 [submodule "spdlog"]
-	path = spdlog
-	url = ./libs/spdlog/
-[submodule "libs/spdlog"]
 	path = libs/spdlog
-	url = ./libs/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "tests/gtest_lib"]
+	path = tests/gtest_lib
+	url = https://github.com/google/googletest.git
