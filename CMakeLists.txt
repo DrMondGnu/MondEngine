@@ -9,7 +9,7 @@ function(copy_dlls_to_target target_name dll_list)
     if (NOT TARGET ${target_name})
         message(ERROR "Target '${target_name}' does not exist")
         return()
-    endif()
+    endif ()
 
     # Get the target binary directory
     get_target_property(target_binary_dir ${target_name} BINARY_DIR)
@@ -18,24 +18,21 @@ function(copy_dlls_to_target target_name dll_list)
     if (NOT EXISTS ${target_binary_dir})
         message(ERROR "Target binary directory '${target_binary_dir}' does not exist")
         return()
-    endif()
-        # Loop through each DLL and copy it
-    foreach(dll ${dll_list})
-        if (NOT EXISTS ${dll})
-            message(WARNING "DLL '${dll}' does not exist, skipping copy")
-        else()
-            message(STATUS "Adding '${dll}' to '${target_binary_dir}'")
-           # execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-             #       ${dll} ${target_binary_dir})
-            add_custom_command(
-                    TARGET ${target_name}
-                    POST_BUILD
-                    COMMAND ${CMAKE_COMMAND} -E copy
-                    ${dll}
-                    ${target_binary_dir}
-            )
-        endif()
-    endforeach()
+    endif ()
+    # Loop through each DLL and copy it
+    foreach (dll ${dll_list})
+
+        message(STATUS "Adding '${dll}' to '${target_binary_dir}'")
+        # execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        #       ${dll} ${target_binary_dir})
+        add_custom_command(
+                TARGET ${target_name}
+                POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy
+                ${dll}
+                ${target_binary_dir}
+        )
+    endforeach ()
 endfunction(copy_dlls_to_target)
 
 # SPDLOG
@@ -50,7 +47,6 @@ find_package(SDL2 REQUIRED)
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew-2.1.0)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
-
 
 
 # DLLs
@@ -92,7 +88,6 @@ add_library(MondEngine_lib STATIC
         src/util/file.cpp
         include/util/file.h
 )
-
 
 
 target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE)
