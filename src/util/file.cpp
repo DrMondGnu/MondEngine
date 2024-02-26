@@ -23,6 +23,9 @@ namespace mondengine::file {
             return nullptr;
         }
 
-        return stringstream.str().c_str();
+        auto str = stringstream.str();
+        char* string = new char[str.length()+1];
+        strcpy_s(string, str.length()+1, str.c_str());
+        return string;
     }
 }
