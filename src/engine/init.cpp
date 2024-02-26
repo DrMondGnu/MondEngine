@@ -5,40 +5,36 @@
 #include "engine/init.h"
 
 namespace mondengine {
-    SDL_Window *init_window(const char *title, int x, int y, int w, int h, uint32_t flags)
+    int init_engine()
     {
-        if (SDL_Init(SDL_INIT_VIDEO) < 0)
+        MOE_TRACE("Initializing engine");
+        glewExperimental = true; // Needed for core profile
+        if( !glfwInit() )
         {
-            MOE_ERROR("SDL could not initialize! SDL Error: {}", SDL_GetError());
-            return nullptr;
+            MOE_ERROR("Failed to initialize GLFW\n" );
+            return -1;
         }
-        SDL_Window *window = SDL_CreateWindow(title, x, y, w, h, flags);
-        if (window == nullptr)
-        {
-            MOE_ERROR("Window could not be created! SDL Error: {}", SDL_GetError());
-            SDL_Quit();
-            return nullptr;
+
+        glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+        GLFWwindow* window;
+        window = glfwCreateWindow(1024, 768, "MondEngine", nullptr, nullptr);
+        if(window == nullptr) {
+            MOE_ERROR("Failed to open GLFW window.");
+            glfwTerminate();
+            return -1;
         }
-        return window;
-    }
 
-    SDL_GLContext init_glew(SDL_Window *window, int major, int minor, bool glew_experimental)
-    {
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, major); // Tell SDL Which GL version we are working with
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, minor);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-        SDL_GLContext ctx = SDL_GL_CreateContext(window); // Bind SDL window to gl
-        glewExperimental = glew_experimental;
-
-        // Init GL
-        GLenum glew_status = glewInit();
-        if (glew_status != GLEW_OK)
-        {
-            MOE_ERROR("Error initializing glew: {}", *glewGetErrorString(glew_status));
-            return nullptr;
+        glfwMakeContextCurrent(window);
+        glewExperimental = true;
+        if(glewInit() != GLEW_OK) {
+            MOE_ERROR("Failed to initialize GLFW");
+            return -1;
         }
-        return ctx;
+        return 0;
     }
 
 

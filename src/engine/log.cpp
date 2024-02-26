@@ -11,7 +11,10 @@ namespace mondengine {
     void Log::init() {
         auto stdout_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         stdout_sink->set_pattern("%n-%T-%l: %v");
+        stdout_sink->set_level(spdlog::level::trace);
         mp_mond_engine_logger = std::make_shared<spdlog::logger>("MondEngine", stdout_sink);
+        mp_mond_engine_logger->set_level(spdlog::level::trace);
+        MOE_TRACE("MondEngine logger initialized!");
         mp_app_logger = std::make_shared<spdlog::logger>("App", stdout_sink);
     }
 

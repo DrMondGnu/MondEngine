@@ -11,9 +11,9 @@
 
 namespace mondengine {
     class Shader {
-        ME_SHADER_ID ID;
-        public:
-            Shader(const char* fShaderFile, const char* vShaderFile);
+    public:
+        MOND_API Shader(const char* fShaderFile, const char* vShaderFile);
+        GLuint ID;
     };
 }
 #endif //MONDENGINE_SHADER_H
