@@ -10,6 +10,7 @@
 #include <GLFW/glfw3.h>
 #include "graphics/vao.h"
 #include "shader.h"
+#include "util/opengl.h"
 
 namespace mondengine {
     class Engine {

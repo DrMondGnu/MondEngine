@@ -55,7 +55,9 @@ namespace mondengine {
             return;
         }
         mondengine::Shader shader("resources/shader/default.frag", "resources/shader/default.vert");
-        auto* vao = new mondengine::graphics::VAO(vertices, sizeof(vertices));
+        auto* vao = new mondengine::graphics::VAO();
+        auto* vbo = new mondengine::graphics::VBO(vertices, sizeof(vertices));
+        vao->add_vbo(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0, vbo);
 
         glfwSetInputMode(mp_window, GLFW_STICKY_KEYS, GL_TRUE);
         while (glfwGetKey(mp_window, GLFW_KEY_ESCAPE) != GLFW_PRESS

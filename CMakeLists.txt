@@ -83,6 +83,10 @@ add_library(MondEngine SHARED
         src/engine/graphics/vao.cpp
         src/engine/graphics/vbo.cpp
         include/engine/graphics/vbo.h
+        src/engine/glid.cpp
+        include/engine/glid.h
+        include/util/opengl.h
+        include/util/general.h
 )
 
 get_target_property(MOND_ENGINE_BIN_DIR MondEngine BINARY_DIR)
@@ -106,6 +110,10 @@ add_library(MondEngine_lib STATIC
         src/engine/graphics/vao.cpp
         src/engine/graphics/vbo.cpp
         include/engine/graphics/vbo.h
+        src/engine/glid.cpp
+        include/engine/glid.h
+        include/util/opengl.h
+        include/util/general.h
 )
 
 

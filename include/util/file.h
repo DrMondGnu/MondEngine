@@ -11,10 +11,13 @@
 #include <iostream>
 #include "engine/log.h"
 #include "types.h"
+#include "general.h"
+
 
 namespace mondengine::file {
 
     MEcstr read_file(const char *filename);
+    const char* get_file_name(const char *filepath);
 }
 
 

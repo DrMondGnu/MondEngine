@@ -6,18 +6,20 @@
 #define NINDO_VAO_H
 
 #include <GL/glew.h>
-
+#include "engine/glid.h"
+#include "vbo.h"
 
 namespace mondengine::graphics {
 
-    class VAO {
+    class VAO : GLID{
     public:
-        explicit VAO(GLfloat *vertices, GLsizeiptr size);
+        VAO();
         void draw();
-
+        void add_vbo(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer, VBO* vbo);
+        void bind() override;
+        void unbind() override;
     private:
-        GLuint m_ID;
-        GLuint m_vertexbuffer;
+        GLuint mc_attrib;
     };
 
 } // graphics

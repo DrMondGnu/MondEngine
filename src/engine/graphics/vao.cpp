@@ -4,27 +4,38 @@
 #include "engine/graphics/vao.h"
 
 namespace mondengine::graphics {
-    VAO::VAO(GLfloat *vertices, GLsizeiptr size) : m_ID(0), m_vertexbuffer(0)
+    VAO::VAO() : mc_attrib(0)
     {
-        glGenVertexArrays(1, &m_ID); // Create the VAO
-        glGenBuffers(1, &m_vertexbuffer); // Create the VBO
-
-        glBindVertexArray(m_ID); // set current VAO
-
-        glBindBuffer(GL_ARRAY_BUFFER, m_vertexbuffer);
-        glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
-
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-        glEnableVertexAttribArray(0);
-
-        // Unbind
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glGenVertexArrays(1, &m_id); // Create the VAO
         glBindVertexArray(0);
     }
 
     void VAO::draw()
     {
-        glBindVertexArray(m_ID);
+        glBindVertexArray(m_id);
         glDrawArrays(GL_TRIANGLES, 0, 3);
+    }
+
+    void VAO::add_vbo(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer,
+                      VBO *vbo)
+    {
+        bind();
+        vbo->bind();
+        glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+
+        glEnableVertexAttribArray(mc_attrib);
+        mc_attrib++;
+        vbo->unbind();
+        unbind();
+    }
+
+    void VAO::bind()
+    {
+        glBindVertexArray(m_id);
+    }
+
+    void VAO::unbind()
+    {
+        glBindVertexArray(0);
     }
 }
