@@ -89,6 +89,10 @@ add_library(MondEngine SHARED
         include/util/general.h
         src/engine/graphics/ebo.cpp
         include/engine/graphics/ebo.h
+        src/engine/event/event_node.cpp
+        include/engine/event/event_node.h
+        src/engine/event/key_event.cpp
+        include/engine/event/key_event.h
 )
 
 get_target_property(MOND_ENGINE_BIN_DIR MondEngine BINARY_DIR)
@@ -118,6 +122,10 @@ add_library(MondEngine_lib STATIC
         include/util/general.h
         src/engine/graphics/ebo.cpp
         include/engine/graphics/ebo.h
+        src/engine/event/event_node.cpp
+        include/engine/event/event_node.h
+        src/engine/event/key_event.cpp
+        include/engine/event/key_event.h
 )
 
 
