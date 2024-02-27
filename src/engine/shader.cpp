@@ -53,14 +53,14 @@ namespace mondengine {
 
         // Link shaders
         MOE_TRACE("Linking programm");
-        ID = glCreateProgram();
-        glAttachShader(ID, VertexShaderID);
-        glAttachShader(ID, FragmentShaderID);
-        glLinkProgram(ID);
+        m_id = glCreateProgram();
+        glAttachShader(m_id, VertexShaderID);
+        glAttachShader(m_id, FragmentShaderID);
+        glLinkProgram(m_id);
 
         // Check linking status
-        glGetProgramiv(ID, GL_LINK_STATUS, &result);
-        glGetProgramiv(ID, GL_INFO_LOG_LENGTH, &infoLogLength);
+        glGetProgramiv(m_id, GL_LINK_STATUS, &result);
+        glGetProgramiv(m_id, GL_INFO_LOG_LENGTH, &infoLogLength);
         if(infoLogLength > 0) {
             auto* msg = new GLchar[infoLogLength+1];
             glGetShaderInfoLog(VertexShaderID, infoLogLength, nullptr, &msg[0]);
@@ -69,5 +69,21 @@ namespace mondengine {
         }
         glDeleteShader(VertexShaderID);
         glDeleteShader(FragmentShaderID);
+    }
+
+    void Shader::bind()
+    {
+        glUseProgram(m_id);
+    }
+
+    void Shader::unbind()
+    {
+        glUseProgram(0);
+    }
+
+    void Shader::setMat4(const char * name, glm::mat4 mat)
+    {
+        GLuint loc = glGetUniformLocation(m_id, name);
+        glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
     }
 }

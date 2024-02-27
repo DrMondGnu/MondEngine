@@ -42,10 +42,12 @@ namespace mondengine {
         }
         return 0;
     }
-    GLfloat vertices[] = {
-            -0.5f, -0.5f, 0.0f, // left
-            0.5f, -0.5f, 0.0f, // right
-            0.0f,  0.5f, 0.0f  // top
+
+    float vertices[] = {
+            // positions         // colors
+            0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+            -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+            0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top
     };
     void Engine::wait_for_exit_loop()
     {
@@ -57,7 +59,12 @@ namespace mondengine {
         mondengine::Shader shader("resources/shader/default.frag", "resources/shader/default.vert");
         auto* vao = new mondengine::graphics::VAO();
         auto* vbo = new mondengine::graphics::VBO(vertices, sizeof(vertices));
-        vao->add_vbo(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0, vbo);
+        vao->add_vbo(3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)0, vbo);
+        vao->add_vbo(3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3*sizeof(float)), vbo);
+
+        glm::mat4 trans = glm::mat4(1.0f);
+        trans = glm::rotate(trans, glm::radians(90.f), glm::vec3(0.0, 0.0, 1.0));
+        trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
 
         glfwSetInputMode(mp_window, GLFW_STICKY_KEYS, GL_TRUE);
         while (glfwGetKey(mp_window, GLFW_KEY_ESCAPE) != GLFW_PRESS
@@ -65,7 +72,8 @@ namespace mondengine {
         {
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
-            glUseProgram(shader.ID);
+            shader.bind();
+            shader.setMat4("transform", trans);
             vao->draw();
             glfwSwapBuffers(mp_window);
             glfwPollEvents();

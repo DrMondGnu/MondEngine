@@ -87,6 +87,8 @@ add_library(MondEngine SHARED
         include/engine/glid.h
         include/util/opengl.h
         include/util/general.h
+        src/engine/graphics/ebo.cpp
+        include/engine/graphics/ebo.h
 )
 
 get_target_property(MOND_ENGINE_BIN_DIR MondEngine BINARY_DIR)
@@ -114,6 +116,8 @@ add_library(MondEngine_lib STATIC
         include/engine/glid.h
         include/util/opengl.h
         include/util/general.h
+        src/engine/graphics/ebo.cpp
+        include/engine/graphics/ebo.h
 )
 
 

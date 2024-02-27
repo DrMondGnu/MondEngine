@@ -8,6 +8,7 @@
 #include <GL/glew.h>
 #include "engine/glid.h"
 #include "vbo.h"
+#include "ebo.h"
 
 namespace mondengine::graphics {
 
@@ -15,9 +16,12 @@ namespace mondengine::graphics {
     public:
         VAO();
         void draw();
-        void add_vbo(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer, VBO* vbo);
+        void draw_ebo(GLsizei count, GLenum type, const void* index);
+        void add_vbo(GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer, VBO* vbo);
+        void set_ebo(EBO* ebo);
         void bind() override;
         void unbind() override;
+
     private:
         GLuint mc_attrib;
     };
