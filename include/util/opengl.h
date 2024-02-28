@@ -15,7 +15,7 @@
 #define GL_CHECK_ERROR(fn) fn; \
 PrintOpenglErrors(__FILE__, __LINE__)
 #else
-#define GL_CHECK_ERROR(fn) fn
+#define GL_CHECK_ERROR(m_function) m_function
 #endif
 inline void PrintOpenglErrors(const char* file, int line)
 {

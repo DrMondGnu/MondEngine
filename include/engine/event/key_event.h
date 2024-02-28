@@ -8,8 +8,11 @@
 namespace mondengine {
     namespace event {
 
-        class KeyEvent {
-
+        struct KeyEvent {
+            int key;
+            int scancode;
+            int action;
+            int mods;
         };
 
     } // event
