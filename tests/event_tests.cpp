@@ -2,7 +2,7 @@
 // Created by MondGnu on 2/27/2024.
 //
 #include "gtest/gtest.h"
-#include "engine/event/event_node.h"
+#include "engine/event/event.h"
 
 using namespace mondengine::event;
 
@@ -13,6 +13,11 @@ public:
                                                                                        m_EventType(mEventType),
                                                                                        m_EventCategory(
                                                                                                mEventCategory) {}
+
+    EventId GetEventId() const override
+    {
+        return REMOVE_CATEGORY(m_EventType);
+    }
 
     const char *GetName() const override
     {
@@ -29,7 +34,7 @@ public:
         return m_EventCategory;
     }
 
-    static EventType GetStaticType() { return 0; }
+    static EventType GetStaticType() { return CATEGORIZE(EventCategoryCustom, 0); }
 
     inline std::string ToString() const override
     {
@@ -64,7 +69,7 @@ bool TestEventFunction(TestEvent &event)
 
 TEST_F(EventTestsFixture, EventDispatcherStdFunctionTest)
 {
-    TestEvent event("TestEvent", 0, EventCategoryCustom);
+    TestEvent event("TestEvent", CATEGORIZE(EventCategoryCustom, 0), EventCategoryCustom);
     EventDispatcher dispatcher(event);
     std::function<bool(TestEvent &)> func = &TestEventFunction;
     dispatcher.Dispatch<TestEvent>(func);
@@ -73,10 +78,10 @@ TEST_F(EventTestsFixture, EventDispatcherStdFunctionTest)
 
 TEST_F(EventTestsFixture, EventDispatcherEventConsumerTest)
 {
-    TestEvent event("TestEvent", 0, EventCategoryCustom);
+    TestEvent event("TestEvent", CATEGORIZE(EventCategoryCustom, 0), EventCategoryCustom);
     EventDispatcher dispatcher(event);
-    EventConsumer<TestEvent> func(&TestEventFunction, 0, EventCategoryCustom);
-    dispatcher.Dispatch(func);
+    EventConsumer<TestEvent> func(&TestEventFunction, CATEGORIZE(EventCategoryCustom, 0));
+    EXPECT_TRUE(dispatcher.Dispatch(func));
     ASSERT_TRUE(event.IsHandled());
 }
 

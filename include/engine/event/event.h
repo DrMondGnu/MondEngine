@@ -51,9 +51,9 @@ namespace mondengine::event {
 
 
 
-#define EVENT_CLASS_TYPE(type, name) ([[nodiscard]] static EventType GetStaticType() { return type; } \
-                                [[nodiscard]] virtual EventType GetEventType() const override { return type; }\
-                                [[nodiscard]] virtual const char* GetName() const override { return name; })
+#define EVENT_CLASS_TYPE(type, name) [[nodiscard]] virtual EventType GetEventType() const override { return type; }\
+                                [[nodiscard]] virtual const char* GetName() const override { return name; }
+
 
 #define EVENT_CLASS_CATEGORY(category) [[nodiscard]] virtual EventCategory GetEventCategory() const override { return category; }
 
@@ -64,6 +64,7 @@ namespace mondengine::event {
     public:
         [[nodiscard]] virtual const char *GetName() const = 0;
         [[nodiscard]] virtual EventType GetEventType() const = 0;
+        [[nodiscard]] virtual EventId GetEventId() const = 0;
         [[nodiscard]] virtual EventCategory GetEventCategory() const = 0;
         [[nodiscard]] virtual std::string ToString() const = 0;
         [[nodiscard]] bool IsHandled() const;
@@ -112,6 +113,7 @@ namespace mondengine::event {
          * @return if it was able to consume event
          */
         template<typename T>
+        [[deprecated("Replaced by Dispatch(EventConsumer)")]]
         bool Dispatch(EventFn<T> func)
         {
             if (m_Event.GetEventType() == T::GetStaticType())
