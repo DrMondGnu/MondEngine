@@ -3,8 +3,9 @@
 //
 #include "gtest/gtest.h"
 #include "engine/event/event.h"
+#include "engine/event/key_event.h"
 
-using namespace mondengine::event;
+using namespace mondengine;
 
 class TestEvent : public Event {
 public:
@@ -49,25 +50,12 @@ protected:
     EventCategory m_EventCategory;
 };
 
-class EventTestsFixture : public ::testing::Test {
-protected:
-    void SetUp() override
-    {
-
-    }
-
-    void TearDown() override
-    {
-
-    }
-};
-
 bool TestEventFunction(TestEvent &event)
 {
     return true;
 }
 
-TEST_F(EventTestsFixture, EventDispatcherStdFunctionTest)
+TEST(EventDispatcherTests, EventDispatcherStdFunctionTest)
 {
     TestEvent event("TestEvent", CATEGORIZE(EventCategoryCustom, 0), EventCategoryCustom);
     EventDispatcher dispatcher(event);
@@ -76,7 +64,7 @@ TEST_F(EventTestsFixture, EventDispatcherStdFunctionTest)
     ASSERT_TRUE(event.IsHandled());
 }
 
-TEST_F(EventTestsFixture, EventDispatcherEventConsumerTest)
+TEST(EventDispatcherTests, EventDispatcherEventConsumerTest)
 {
     TestEvent event("TestEvent", CATEGORIZE(EventCategoryCustom, 0), EventCategoryCustom);
     EventDispatcher dispatcher(event);
@@ -85,15 +73,59 @@ TEST_F(EventTestsFixture, EventDispatcherEventConsumerTest)
     ASSERT_TRUE(event.IsHandled());
 }
 
-TEST(CATEGORIZE, RightOutputTest)
+TEST(CATEGORIZETests, RightOutputTest)
 {
     ASSERT_EQ(513,  CATEGORIZE(0x00000001, 2));
 }
 
-TEST(REMOVE_CATEGORY, RightOutputTest) {
+TEST(REMOVE_CATEGORYTests, RightOutputTest) {
     ASSERT_EQ(2, REMOVE_CATEGORY(513));
 }
 
-TEST(CATEGORY_OF, RightOutputTest) {
+TEST(CATEGORY_OFTests, RightOutputTest) {
     ASSERT_EQ(1, CATEGORY_OF(513));
+}
+
+bool KeyEventTestFunction(KeyEvent& keyEvent) {
+    return true;
+}
+
+
+class KeyEventTests : public ::testing::Test {
+protected:
+    void SetUp() override
+    {
+        m_Consumer = new EventConsumer<KeyEvent>(&KeyEventTestFunction,mondengine::EventCategoryKeyboard);
+    }
+
+    void TearDown() override
+    {
+        delete m_Consumer;
+    }
+
+    EventConsumer<KeyEvent>* m_Consumer;
+
+};
+
+
+TEST_F(KeyEventTests, KeyDownEventDispatchTest)
+{
+    KeyDownEvent event(2, 3, 4, 5);
+    EventDispatcher dispatcher(event);
+    dispatcher.Dispatch(*m_Consumer);
+    ASSERT_TRUE(event.IsHandled());
+}
+TEST_F(KeyEventTests, KeyPressedEventDispatchTest)
+{
+    KeyPressedEvent event(2, 3, 4, 5);
+    EventDispatcher dispatcher(event);
+    dispatcher.Dispatch(*m_Consumer);
+    ASSERT_TRUE(event.IsHandled());
+}
+TEST_F(KeyEventTests, KeyUpEventDispatchTest)
+{
+    KeyUpEvent event(2, 3, 4, 5);
+    EventDispatcher dispatcher(event);
+    dispatcher.Dispatch(*m_Consumer);
+    ASSERT_TRUE(event.IsHandled());
 }

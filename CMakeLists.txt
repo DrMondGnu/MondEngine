@@ -43,8 +43,15 @@ function(copy_dlls_to_target_when target_name when dll_list)
     endforeach ()
 endfunction(copy_dlls_to_target_when)
 
+# FMT
+add_subdirectory(libs/fmt)
+
 # SPDLOG
+include_directories(${FMT_HEADERS})
+set(SPDLOG_FMT_EXTERNAL ON)
 add_subdirectory(libs/spdlog)
+
+
 
 # SDL2
 #set(SDL2_DIR libs/SDL2-2.30.0/cmake)
@@ -93,6 +100,12 @@ add_library(MondEngine SHARED
         include/engine/event/key_event.h
         src/engine/event/event.cpp
         include/engine/event/event.h
+        src/engine/window.cpp
+        include/engine/window.h
+        src/platform/windows/windows_window.cpp
+        include/platform/windows/windows_window.h
+        src/engine/event/window_event.cpp
+        include/engine/event/window_event.h
 )
 
 target_precompile_headers(MondEngine PUBLIC
@@ -142,6 +155,12 @@ add_library(MondEngine_lib STATIC
         include/engine/event/key_event.h
         src/engine/event/event.cpp
         include/engine/event/event.h
+        src/engine/window.cpp
+        include/engine/window.h
+        src/platform/windows/windows_window.cpp
+        include/platform/windows/windows_window.h
+        src/engine/event/window_event.cpp
+        include/engine/event/window_event.h
 )
 
 target_precompile_headers(MondEngine_lib REUSE_FROM MondEngine)
@@ -149,8 +168,8 @@ target_precompile_headers(MondEngine_lib REUSE_FROM MondEngine)
 target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE)
 
 # Linking
-target_link_libraries(MondEngine PUBLIC glfw spdlog ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
-target_link_libraries(MondEngine_lib PUBLIC glfw spdlog ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
+target_link_libraries(MondEngine PUBLIC glfw fmt::fmt spdlog ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
+target_link_libraries(MondEngine_lib PUBLIC glfw fmt::fmt spdlog ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
 
 # Include directories

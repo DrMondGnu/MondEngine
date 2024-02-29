@@ -11,6 +11,9 @@
 #include "graphics/vao.h"
 #include "shader.h"
 #include "util/opengl.h"
+#include "window.h"
+#include "event/event.h"
+#include "platform/windows/windows_window.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -20,9 +23,10 @@ namespace mondengine {
     public:
         MOND_API Engine();
         int init();
+        void OnEvent(Event& event);
     private:
         void wait_for_exit_loop();
-        GLFWwindow* mp_window;
+        Window* m_Window = nullptr;
     };
 
 } // mondengine

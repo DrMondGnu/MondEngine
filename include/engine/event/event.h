@@ -7,11 +7,9 @@
 
 #include <functional>
 #include <string>
+#include "fmt/format.h"
 
-
-
-
-namespace mondengine::event {
+namespace mondengine{
 
 #define EVENT_CATEGORY_SIZE 8
 #define EVENT_ID_SIZE 16
@@ -20,10 +18,12 @@ namespace mondengine::event {
 #define CATEGORIZE(c, x) ((x << 8)+c)
 #define REMOVE_CATEGORY(x) (x>>8)
 #define CATEGORY_OF(x) (x&255)
-
+#define EVENT_TYPE_TO_ID(x) CATEGORY_OF(x)
+#define EVENT_TYPE_TO_CATEGORY(x) REMOVE_CATEGORY(x)
+#define EVENT_TYPE(c, x) CATEGORIZE(c, x);
     // EventType consists of EventCategory and EventId
     // The first 8 bits are used for the EventCategory
-    // The 16 bits after are used for the EventId
+    // The 16 bits after are used for the EventId, event id of zero is reserved for no event id and just the category
     // The last 8 bits are not used yet
     typedef uint16_t EventId; // Id
     typedef uint8_t EventCategory; // Category as a BitMask
@@ -40,19 +40,9 @@ namespace mondengine::event {
         EventCategoryCustom         = BIT(6)
     };
 
-    enum EventCategoryKeyboard : EventType {
-        KeyDown = CATEGORIZE(EventCategoryKeyboard, 0),
-        KeyPressed = CATEGORIZE(EventCategoryKeyboard, 1),
-        KeyReleased = CATEGORIZE(EventCategoryKeyboard, 2)
-    };
-
-
-
-
-
-
-#define EVENT_CLASS_TYPE(type, name) [[nodiscard]] virtual EventType GetEventType() const override { return type; }\
-                                [[nodiscard]] virtual const char* GetName() const override { return name; }
+#define EVENT_CLASS_TYPE(type, name)    [[nodiscard]] virtual EventType GetEventType() const override { return type; } \
+                                        [[nodiscard]] virtual EventId GetEventId() const override { return REMOVE_CATEGORY(type); }\
+                                        [[nodiscard]] virtual const char* GetName() const override { return name; }
 
 
 #define EVENT_CLASS_CATEGORY(category) [[nodiscard]] virtual EventCategory GetEventCategory() const override { return category; }
@@ -82,7 +72,7 @@ namespace mondengine::event {
 
         bool operator==(Event& event)
         {
-            return event.GetEventType() == m_EventType;
+            return event.GetEventType() == m_EventType || (REMOVE_CATEGORY(m_EventType) == 0 && event.GetEventCategory() == CATEGORY_OF(m_EventType));
         }
 
         const EventFn<E> &GetFunction() const
@@ -125,7 +115,7 @@ namespace mondengine::event {
         }
 
         template<typename T>
-        bool Dispatch(EventConsumer<T> consumer)
+        bool Dispatch(EventConsumer<T>& consumer)
         {
             if(m_Event == consumer) {
                 dispatch(consumer.GetFunction());
@@ -143,7 +133,10 @@ namespace mondengine::event {
         Event &m_Event;
     };
 
-} // event
+}// event
 // mondengine
-
+template<>
+struct fmt::formatter<mondengine::Event>: fmt::formatter<std::string> {
+    fmt::basic_appender<char>  format(mondengine::Event &e, format_context &ctx) const;
+};
 #endif //NINDO_EVENT_H
