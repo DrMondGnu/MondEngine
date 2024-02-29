@@ -17,6 +17,7 @@ namespace mondengine {
     class GLID {
     public:
         explicit GLID();
+        // TODO: move bind methods to protected and handle as onBind fn. Add m_bound safe guard to new not virtual Bind and Unbind methods
         virtual void bind() = 0;
         virtual void unbind() = 0;
         bool IsBound() const;

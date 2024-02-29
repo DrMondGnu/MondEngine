@@ -31,12 +31,16 @@ namespace mondengine::graphics {
 
     void VAO::bind()
     {
+        RETURN_IF_BOUND
         glBindVertexArray(m_id);
+        m_bound = true;
     }
 
     void VAO::unbind()
     {
+        RETURN_IF_NOT_BOUND
         glBindVertexArray(0);
+        m_bound = false;
     }
 
     void VAO::SetEBO(EBO &ebo)

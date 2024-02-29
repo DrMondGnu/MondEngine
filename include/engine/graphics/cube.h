@@ -16,7 +16,9 @@ namespace mondengine::graphics {
         explicit Cube(float size);
         void Draw();
     private:
-       VAO m_Vao;
+       VAO* m_Vao{};
+       static void init_cube_vao();
+       static VAO* ms_Vao;
     };
 
 } // graphics

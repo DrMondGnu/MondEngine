@@ -108,6 +108,11 @@ add_library(MondEngine SHARED
         include/engine/event/window_event.h
         src/engine/graphics/cube.cpp
         include/engine/graphics/cube.h
+        include/engine/graphics/shapes.h
+        src/engine/game_object.cpp
+        include/engine/game_object.h
+        src/node.cpp
+        include/node.h
 )
 
 target_precompile_headers(MondEngine PUBLIC
@@ -165,6 +170,11 @@ add_library(MondEngine_lib STATIC
         include/engine/event/window_event.h
         src/engine/graphics/cube.cpp
         include/engine/graphics/cube.h
+        include/engine/graphics/shapes.h
+        src/engine/game_object.cpp
+        include/engine/game_object.h
+        src/node.cpp
+        include/node.h
 )
 
 target_precompile_headers(MondEngine_lib REUSE_FROM MondEngine)

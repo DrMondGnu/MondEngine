@@ -25,38 +25,6 @@ namespace mondengine {
         return 0;
     }
 
-    float vertices[] = {
-            // positions
-            -0.5f, -0.5f, -0.5f, // Front-Bottom-Left 0
-            0.5f, -0.5f, -0.5f, // Front-Bottom-Right 1
-            0.5f,  0.5f, -0.5f, // Front-Top-Right 2
-            -0.5f,  0.5f, -0.5f, // Front-Top-Left 3
-
-            -0.5f, -0.5f, 0.5f, // Back-Bottom-Left 4
-            0.5f, -0.5f, 0.5f, // Back-Bottom-Right 5
-            0.5f,  0.5f, 0.5f, // Back-Top-Right 6
-            -0.5f,  0.5f, 0.5f, // Back-Top-Left 7
-    };
-
-    int indices[] = {
-            1, 0, 3, // Front-T-Bottom-Left
-            1, 2, 3, // Front-T-Top-Right
-
-            0, 4, 7, // Left-T-Bottom-Left
-            0, 3, 7, // Left-T-Top-Right
-
-            2, 1, 5, // Right-T-Bottom-Left
-            2, 6, 5, // Right-T-Top-Right
-
-            2, 3, 7, // Top-T-Bottom-Left
-            2, 6, 7, // Top-T-Top-Right
-
-            1, 0, 4, // Bottom-T-Bottom-Left
-            1, 5, 4, // Bottom-T-Top-Right
-
-            5, 4, 7, // Back-T-Bottom-Left
-            5, 6, 7, // Back-T-Top-Right
-    };
 
     void Engine::wait_for_exit_loop()
     {
@@ -89,14 +57,22 @@ namespace mondengine {
         trans = glm::rotate(trans, glm::radians(90.f), glm::vec3(0.0, 0.0, 1.0));
         trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
 
+        double previous = CURRENT_TIME_MILLIS();
+        double lag = 0.0f;
         while (!m_Window->ShouldClose())
         {
-            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            shader.bind();
-//            shader.setMat4("transform", trans);
-            cube.Draw();
-            m_Window->OnUpdate();
+            double current = CURRENT_TIME_MILLIS();
+            double elapsed = current - previous;
+            previous = current;
+            lag += elapsed;
+
+            process_input();
+
+            while(lag >= MS_PER_UPDATE) {
+                tick();
+                lag -= MS_PER_UPDATE;
+            }
+            render(lag / MS_PER_UPDATE);
         }
 
         glfwTerminate();
@@ -106,4 +82,23 @@ namespace mondengine {
     {
         MOE_INFO("Event: {0}", event);
     }
+
+
+    void Engine::process_input()
+    {
+
+    }
+
+    void Engine::tick()
+    {
+
+    }
+
+    void Engine::render(float lag)
+    {
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        m_Window->OnUpdate();
+    }
+
 } // mondengine
