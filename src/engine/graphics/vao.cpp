@@ -6,8 +6,8 @@
 namespace mondengine::graphics {
     VAO::VAO() : mc_attrib(0)
     {
-        GL_CHECK_ERROR(glGenVertexArrays(1, &m_id)); // Create the VAO
-        GL_CHECK_ERROR(glBindVertexArray(0));
+        GL_CHECK_ERROR_FN(glGenVertexArrays(1, &m_id)); // Create the VAO
+        GL_CHECK_ERROR_FN(glBindVertexArray(0));
     }
 
     void VAO::draw()
@@ -17,15 +17,15 @@ namespace mondengine::graphics {
 
     }
 
-    void VAO::add_vbo(GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer,
-                      VBO *vbo)
+    void VAO::AddAttribPointer(GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer,
+                               VBO& vbo)
     {
         bind();
-        vbo->bind();
-        GL_CHECK_ERROR(glVertexAttribPointer(mc_attrib, size, type, normalized, stride, pointer));
-        GL_CHECK_ERROR(glEnableVertexAttribArray(mc_attrib));
+        vbo.bind();
+        GL_CHECK_ERROR_FN(glVertexAttribPointer(mc_attrib, size, type, normalized, stride, pointer));
+        GL_CHECK_ERROR_FN(glEnableVertexAttribArray(mc_attrib));
         mc_attrib++;
-        vbo->unbind();
+        vbo.unbind();
         unbind();
     }
 
@@ -39,15 +39,15 @@ namespace mondengine::graphics {
         glBindVertexArray(0);
     }
 
-    void VAO::set_ebo(EBO *ebo)
+    void VAO::SetEBO(EBO &ebo)
     {
         bind();
-        ebo->bind();
+        ebo.bind();
         unbind();
-        ebo->unbind();
+        ebo.unbind();
     }
 
-    void VAO::draw_ebo(GLsizei count, GLenum type, const void* index)
+    void VAO::DrawEBO(GLsizei count, GLenum type, const void* index)
     {
         bind();
         glDrawElements(GL_TRIANGLES, count, type, index);

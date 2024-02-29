@@ -16,9 +16,9 @@ namespace mondengine::graphics {
     public:
         VAO();
         void draw();
-        void draw_ebo(GLsizei count, GLenum type, const void* index);
-        void add_vbo(GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer, VBO* vbo);
-        void set_ebo(EBO* ebo);
+        void DrawEBO(GLsizei count, GLenum type, const void* index);
+        void AddAttribPointer(GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer, VBO& vbo);
+        void SetEBO(EBO& ebo);
         void bind() override;
         void unbind() override;
 

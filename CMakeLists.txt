@@ -106,6 +106,8 @@ add_library(MondEngine SHARED
         include/platform/windows/windows_window.h
         src/engine/event/window_event.cpp
         include/engine/event/window_event.h
+        src/engine/graphics/cube.cpp
+        include/engine/graphics/cube.h
 )
 
 target_precompile_headers(MondEngine PUBLIC
@@ -161,6 +163,8 @@ add_library(MondEngine_lib STATIC
         include/platform/windows/windows_window.h
         src/engine/event/window_event.cpp
         include/engine/event/window_event.h
+        src/engine/graphics/cube.cpp
+        include/engine/graphics/cube.h
 )
 
 target_precompile_headers(MondEngine_lib REUSE_FROM MondEngine)

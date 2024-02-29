@@ -9,14 +9,21 @@
 
 namespace mondengine {
 
+#define IF_BOUND if(IsBound())
+#define RETURN_IF_BOUND if(IsBound()) { return; }
+#define RETURN_IF_NOT_BOUND if(!IsBound()) { return; }
+#define BIND_IF_NOT if(!IsBound()) { bind(); }
+
     class GLID {
     public:
         explicit GLID();
         virtual void bind() = 0;
         virtual void unbind() = 0;
-        GLuint get_id() const;
+        bool IsBound() const;
+        GLuint GetId() const;
     protected:
-        GLuint m_id;
+        GLuint m_id = 0;
+        bool m_bound = false;
     };
 
 } // mondengine

@@ -8,12 +8,16 @@
 namespace mondengine::graphics {
     void EBO::bind()
     {
+        RETURN_IF_BOUND
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
+        m_bound = true;
     }
 
     void EBO::unbind()
     {
+        RETURN_IF_NOT_BOUND
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        m_bound = false;
     }
 
     EBO::EBO(const void* data, GLsizeiptr size) {

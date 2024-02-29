@@ -8,8 +8,13 @@ namespace mondengine {
     GLID::GLID() : m_id(0) {
     }
 
-    GLuint GLID::get_id() const
+    GLuint GLID::GetId() const
     {
         return m_id;
+    }
+
+    bool GLID::IsBound() const
+    {
+        return m_bound;
     }
 } // mondengine

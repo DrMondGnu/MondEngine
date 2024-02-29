@@ -8,10 +8,10 @@
 namespace mondengine::graphics {
     VBO::VBO(const void* data, GLsizeiptr size)
     {
-        GL_CHECK_ERROR(glGenBuffers(1, &m_id));
-        GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, m_id));
-        GL_CHECK_ERROR(glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW));
-        GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, 0));
+        GL_CHECK_ERROR_FN(glGenBuffers(1, &m_id));
+        GL_CHECK_ERROR_FN(glBindBuffer(GL_ARRAY_BUFFER, m_id));
+        GL_CHECK_ERROR_FN(glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW));
+        GL_CHECK_ERROR_FN(glBindBuffer(GL_ARRAY_BUFFER, 0));
     }
 
     void VBO::bind()
