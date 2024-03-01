@@ -17,7 +17,7 @@
 namespace mondengine::file {
 
     MEcstr read_file(const char *filename);
-    const char* get_file_name(const char *filepath);
+    MOND_API const char* get_file_name(const char *filepath);
 }
 
 

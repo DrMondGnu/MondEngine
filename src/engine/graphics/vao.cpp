@@ -10,10 +10,10 @@ namespace mondengine::graphics {
         GL_CHECK_ERROR_FN(glBindVertexArray(0));
     }
 
-    void VAO::draw()
+    void VAO::draw(GLint first, GLsizei count)
     {
         bind();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, first, count);
 
     }
 
@@ -22,8 +22,8 @@ namespace mondengine::graphics {
     {
         bind();
         vbo.bind();
-        GL_CHECK_ERROR_FN(glVertexAttribPointer(mc_attrib, size, type, normalized, stride, pointer));
         GL_CHECK_ERROR_FN(glEnableVertexAttribArray(mc_attrib));
+        GL_CHECK_ERROR_FN(glVertexAttribPointer(mc_attrib, size, type, normalized, stride, pointer));
         mc_attrib++;
         vbo.unbind();
         unbind();

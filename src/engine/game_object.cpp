@@ -18,14 +18,14 @@ namespace mondengine {
         }
     }
 
-    void RenderObjectHandler::Render(float lag)
+    void RenderObjectHandler::Render(graphics::SpriteRenderer renderer, float lag)
     {
         for (const auto &item: m_Children) {
             if(item == nullptr) {
                 m_Children.erase(item);
                 continue;
             }
-            item->Get()->Render(lag);
+            item->Get()->Render(renderer, lag);
         }
     }
 } // mondengine

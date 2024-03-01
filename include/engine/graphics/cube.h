@@ -13,8 +13,8 @@ namespace mondengine::graphics {
 
     class Cube {
     public:
-        explicit Cube(float size);
-        void Draw();
+        MOND_API explicit Cube(float size);
+        MOND_API void Draw();
     private:
        VAO* m_Vao{};
        static void init_cube_vao();

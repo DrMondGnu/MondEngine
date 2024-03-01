@@ -15,7 +15,7 @@ namespace mondengine::graphics {
     class VAO : GLID{
     public:
         VAO();
-        void draw();
+        void draw(GLint first, GLsizei count);
         void DrawEBO(GLsizei count, GLenum type, const void* index);
         void AddAttribPointer(GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer, VBO& vbo);
         void SetEBO(EBO& ebo);

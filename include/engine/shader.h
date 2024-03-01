@@ -23,7 +23,8 @@ namespace mondengine {
         void bind() override;
         void unbind() override;
 
-        void setMat4(const char* name, glm::mat4& mat);
+        MOND_API void SetMat4(const char* name, glm::mat4& mat);
+        MOND_API void SetVector3f(const char* name, glm::vec3 vec);
     };
 }
 #endif //MONDENGINE_SHADER_H

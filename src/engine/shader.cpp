@@ -85,12 +85,18 @@ namespace mondengine {
         m_bound = false;
     }
 
-    void Shader::setMat4(const char * name, glm::mat4& mat)
+    void Shader::SetMat4(const char * name, glm::mat4& mat)
     {
         BIND_IF_NOT
         GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(m_id, name));
-        MOE_TRACE("Setting matrix4: (name: {}, location: {})", name, loc);
+//        MOE_TRACE("Setting matrix4: (name: {}, location: {})", name, loc);
         GL_CHECK_ERROR_FN(glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat)));
-        unbind();
+    }
+
+    void Shader::SetVector3f(const char *name, glm::vec3 vec)
+    {
+        BIND_IF_NOT
+        GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(m_id, name));
+        GL_CHECK_ERROR_FN(glUniform3f(loc, vec.x, vec.y, vec.z));
     }
 }

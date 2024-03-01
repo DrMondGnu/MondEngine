@@ -53,11 +53,6 @@ add_subdirectory(libs/spdlog)
 
 
 
-# SDL2
-#set(SDL2_DIR libs/SDL2-2.30.0/cmake)
-#find_package(SDL2 REQUIRED)
-
-
 # GLEW
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew-2.1.0)
 find_package(GLEW REQUIRED)
@@ -67,10 +62,14 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(libs/glfw)
 
 # DLLs
-set(MOND_ENGINE_REQUIRED_DLLS "${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2-2.30.0/lib/x64/SDL2.dll"
+set(MOND_ENGINE_REQUIRED_DLLS
         "${CMAKE_CURRENT_SOURCE_DIR}/libs/glew-2.1.0/bin/Release/x64/glew32.dll"
 )
 
+# stb
+add_library(stb STATIC libs/util/stb_image.h
+        libs/util/stb_image.cpp)
+target_include_directories(stb INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/libs/util)
 set(MOND_ENGINE_REQUIRED_DLLS ${MOND_ENGINE_REQUIRED_DLLS} PARENT_SCOPE)
 
 # Shared Lib
@@ -113,6 +112,10 @@ add_library(MondEngine SHARED
         include/engine/game_object.h
         src/node.cpp
         include/node.h
+        src/engine/graphics/renderer.cpp
+        include/engine/graphics/renderer.h
+        src/engine/texture.cpp
+        include/engine/texture.h
 )
 
 target_precompile_headers(MondEngine PUBLIC
@@ -175,6 +178,11 @@ add_library(MondEngine_lib STATIC
         include/engine/game_object.h
         src/node.cpp
         include/node.h
+        src/engine/graphics/renderer.cpp
+        include/engine/graphics/renderer.h
+
+        src/engine/texture.cpp
+        include/engine/texture.h
 )
 
 target_precompile_headers(MondEngine_lib REUSE_FROM MondEngine)
@@ -182,8 +190,8 @@ target_precompile_headers(MondEngine_lib REUSE_FROM MondEngine)
 target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE)
 
 # Linking
-target_link_libraries(MondEngine PUBLIC glfw fmt::fmt spdlog ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
-target_link_libraries(MondEngine_lib PUBLIC glfw fmt::fmt spdlog ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
+target_link_libraries(MondEngine PUBLIC stb glfw fmt::fmt spdlog ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
+target_link_libraries(MondEngine_lib PUBLIC stb glfw fmt::fmt spdlog ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
 
 
 # Include directories

@@ -6,13 +6,14 @@
 #define NINDO_GAME_OBJECT_H
 
 #include "util/general.h"
+#include "graphics/renderer.h"
 #include "node.h"
 
 namespace mondengine {
 
     class IRenderObject : public Node<IRenderObject>{
     public:
-        virtual void Render(float lag) = 0;
+        virtual void Render(graphics::SpriteRenderer renderer, float lag) = 0;
     };
 
     class ITickObject : public Node<ITickObject>{
@@ -34,7 +35,7 @@ namespace mondengine {
     };
     class RenderObjectHandler : public IRenderObject {
     public:
-        void Render(float lag) override;
+        void Render(graphics::SpriteRenderer renderer, float lag) override;
     };
 } // mondengine
 

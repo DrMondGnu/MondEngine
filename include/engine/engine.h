@@ -20,19 +20,25 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #define CURRENT_TIME_MILLIS() std::chrono::system_clock::now().time_since_epoch().count()
-#define MS_PER_UPDATE 1000/60
+#define MS_PER_UPDATE (1000.0 / 60.0)
 
 namespace mondengine {
     class Engine{
     public:
         MOND_API Engine();
         int init();
+        MOND_API void Start();
         void OnEvent(Event& event);
+        MOND_API void AddTickObject(ITickObject* object);
+        MOND_API void AddRenderObject(IRenderObject* object);
+        MOND_API void AddGameObject(IGameObject* object);
     private:
         void wait_for_exit_loop();
         void process_input();
         void tick();
-        void render(float lag);
+        void render(graphics::SpriteRenderer renderer, float lag);
+        TickObjectHandler m_TickHandler;
+        RenderObjectHandler m_RenderHandler;
         Window* m_Window = nullptr;
     };
 
