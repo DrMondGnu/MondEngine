@@ -25,8 +25,6 @@ namespace mondengine {
     }
 
 
-    Rectangle* rectangle;
-    ShapeRenderer* shapeRenderer;
 
     void Engine::wait_for_exit_loop()
     {
@@ -51,10 +49,9 @@ namespace mondengine {
 
         shader.SetMat4("projection", projection);
         shader.bind();
-        shapeRenderer = new ShapeRenderer(shader);
-        rectangle = new Rectangle(glm::vec2(200.0f, 200.0f), glm::vec2(50.0f, 50.0f), 0.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 
-        graphics::SpriteRenderer renderer(shader);
+
+        Renderer renderer(shader);
         double previous = CURRENT_TIME_MILLIS();
         double lag = 0.0f;
         while (!m_Window->ShouldClose())
@@ -93,26 +90,25 @@ namespace mondengine {
         m_TickHandler.Tick();
     }
 
-    void Engine::render(graphics::SpriteRenderer renderer, float lag)
+    void Engine::render(Renderer renderer, float lag)
     {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        shapeRenderer->Render(*rectangle);
 
-        m_RenderHandler.Render(lag);
+        m_RenderHandler.Render(renderer, lag);
 
         m_Window->OnUpdate();
     }
 
     void Engine::AddTickObject(ITickObject *object)
     {
-        m_TickHandler.AddChild(object);
+        m_TickHandler.Add(object);
     }
 
     void Engine::AddRenderObject(IRenderObject *object)
     {
-        m_RenderHandler.AddChild(object);
+        m_RenderHandler.Add(object);
     }
 
     void Engine::AddGameObject(IGameObject *object)

@@ -5,7 +5,7 @@
 #include "engine/graphics/renderer.h"
 
 
-namespace mondengine::graphics {
+namespace mondengine {
 
 
     SpriteRenderer::SpriteRenderer(Shader &shader) : m_Shader(shader)

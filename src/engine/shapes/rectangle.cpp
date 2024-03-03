@@ -31,8 +31,11 @@ namespace mondengine {
         }
     }
 
-    void Rectangle::Draw() const
+    void Rectangle::Render(Renderer &renderer, float lag)
     {
+        renderer.SetModel(ModelMatrix());
+        renderer.SetUseTexture(false);
+        renderer.SetColor(color);
         Vao->draw(0, 6);
     }
 

@@ -9,10 +9,9 @@
 #include "library.h"
 #include "vao.h"
 #include "engine/texture.h"
-#include "engine/game_object.h"
 
-namespace mondengine::graphics {
-
+namespace mondengine{
+    using namespace graphics;
     class SpriteRenderer {
     public:
         MOND_API explicit SpriteRenderer(Shader &shader);
@@ -22,24 +21,23 @@ namespace mondengine::graphics {
         VAO m_Vao;
     };
 
-    template<typename R>
-    class Renderer {
+class Renderer {
     public:
         explicit Renderer(Shader &shader) : shader(shader) {}
-        virtual void Render(R& r) = 0;
-    protected:
-        void setModel(glm::mat4 model) const
+
+        void SetModel(glm::mat4 model) const
         {
             shader.SetMat4("model", model);
         }
 
-        void setColor(glm::vec3 color) const
+        void SetColor(glm::vec3 color) const
         {
             shader.SetVector3f("color", color);
         }
-        void setUseTexture(bool b) const{
+        void SetUseTexture(bool b) const{
             shader.SetBool("useTexture", b);
         }
+    protected:
         Shader& shader;
     };
 

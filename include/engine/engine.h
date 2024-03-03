@@ -37,11 +37,12 @@ namespace mondengine {
         MOND_API void AddTickObject(ITickObject* object);
         MOND_API void AddRenderObject(IRenderObject* object);
         MOND_API void AddGameObject(IGameObject* object);
+
     private:
         void wait_for_exit_loop();
         void process_input();
         void tick();
-        void render(graphics::SpriteRenderer renderer, float lag);
+        void render(Renderer renderer, float lag);
         TickObjectHandler m_TickHandler;
         RenderObjectHandler m_RenderHandler;
         Window* m_Window = nullptr;

@@ -14,7 +14,6 @@ namespace mondengine {
     };
 
     class StaticSpriteGameObject : public IRenderObject {
-
     };
 
     class SpriteGameObject : public IGameObject{

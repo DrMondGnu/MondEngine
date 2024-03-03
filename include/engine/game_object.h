@@ -12,35 +12,40 @@
 namespace mondengine {
 using namespace graphics;
 
-    template<typename R>
-    class IRenderObject : public Node<IRenderObject<R>>{
+    class IRenderObject{
     public:
-        virtual void Render(Renderer<R> render, float lag) = 0;
+        MOND_API virtual void Render(Renderer &renderer, float lag) = 0;
     };
 
-    class ITickObject : public Node<ITickObject>{
+    class ITickObject{
     public:
-        virtual void Tick() = 0;
+        MOND_API virtual void Tick() = 0;
     };
 
-    template<typename R>
-    class IStaticGameObject : public IRenderObject<R> {
+
+    class IStaticGameObject : IRenderObject{
     };
 
-    template<typename R>
-    class IGameObject : public IRenderObject<R>, public ITickObject {
+
+    class IGameObject : public IRenderObject, public ITickObject {
 
     };
 
-    class TickObjectHandler : public ITickObject{
+    // Offload m_children into interface class
+    class TickObjectHandler : ITickObject{
     public:
         void Tick() override;
+        void Add(ITickObject* object);
     private:
-
+        std::unordered_set<ITickObject*> m_children;
     };
-    class RenderObjectHandler : public IRenderObject {
+
+    class RenderObjectHandler : IRenderObject{
     public:
-        void Render(float lag) override;
+        void Render(Renderer &renderer, float lag) override;
+        void Add(IRenderObject* object);
+    private:
+        std::unordered_set<IRenderObject*> m_children;
     };
 
 

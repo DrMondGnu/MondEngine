@@ -9,7 +9,7 @@
 #include <string>
 #include "fmt/format.h"
 
-namespace mondengine{
+namespace mondengine {
 
 #define EVENT_CATEGORY_SIZE 8
 #define EVENT_ID_SIZE 16
@@ -20,7 +20,7 @@ namespace mondengine{
 #define CATEGORY_OF(x) (x&255)
 #define EVENT_TYPE_TO_ID(x) CATEGORY_OF(x)
 #define EVENT_TYPE_TO_CATEGORY(x) REMOVE_CATEGORY(x)
-#define EVENT_TYPE(c, x) CATEGORIZE(c, x);
+#define EVENT_TYPE(c, x) CATEGORIZE(c, x)
     // EventType consists of EventCategory and EventId
     // The first 8 bits are used for the EventCategory
     // The 16 bits after are used for the EventId, event id of zero is reserved for no event id and just the category
@@ -31,13 +31,13 @@ namespace mondengine{
 
     enum EventCategories : EventCategory {
         None = 0,
-        EventCategoryEngine         = BIT(0),
-        EventCategoryInput          = BIT(1),
-        EventCategoryWindow         = BIT(2),
-        EventCategoryKeyboard       = BIT(3),
-        EventCategoryMouse          = BIT(4),
-        EventCategoryMouseButton    = BIT(5),
-        EventCategoryCustom         = BIT(6)
+        EventCategoryEngine = BIT(0),
+        EventCategoryInput = BIT(1),
+        EventCategoryWindow = BIT(2),
+        EventCategoryKeyboard = BIT(3),
+        EventCategoryMouse = BIT(4),
+        EventCategoryMouseButton = BIT(5),
+        EventCategoryCustom = BIT(6)
     };
 
 #define EVENT_CLASS_TYPE(type, name)    [[nodiscard]] virtual EventType GetEventType() const override { return type; } \
@@ -53,10 +53,15 @@ namespace mondengine{
 
     public:
         [[nodiscard]] virtual const char *GetName() const = 0;
+
         [[nodiscard]] virtual EventType GetEventType() const = 0;
+
         [[nodiscard]] virtual EventId GetEventId() const = 0;
+
         [[nodiscard]] virtual EventCategory GetEventCategory() const = 0;
+
         [[nodiscard]] virtual std::string ToString() const = 0;
+
         [[nodiscard]] bool IsHandled() const;
 
     protected:
@@ -65,23 +70,38 @@ namespace mondengine{
 
     template<typename E>
     class EventConsumer {
-        template<typename T>
-        using EventFn = std::function<bool(T &)>;
+        using EventFn = std::function<bool(E &)>;
     public:
-        EventConsumer(const EventFn<E> &fn, EventType eventType) : m_function(fn), m_EventType(eventType) {}
+        EventConsumer(const EventFn &fn, EventType eventType) : function(fn), m_EventType(eventType) {}
 
-        bool operator==(Event& event)
+        bool operator==(Event &event)
         {
-            return event.GetEventType() == m_EventType || (REMOVE_CATEGORY(m_EventType) == 0 && event.GetEventCategory() == CATEGORY_OF(m_EventType));
+            return event.GetEventType() == m_EventType ||
+                   (REMOVE_CATEGORY(m_EventType) == 0 && event.GetEventCategory() == CATEGORY_OF(m_EventType));
         }
 
-        const EventFn<E> &GetFunction() const
+        void operator()(E &event)
         {
-            return m_function;
+            function(event);
+        }
+
+        const EventFn &GetFunction() const
+        {
+            return function;
+        }
+
+        [[nodiscard]] EventCategory GetCategory() const
+        {
+            return EVENT_TYPE_TO_CATEGORY(m_EventType);
+        }
+
+        [[nodiscard]] EventType GetEventType() const
+        {
+            return m_EventType;
         }
 
     protected:
-        EventFn<E> m_function;
+        EventFn function;
     private:
         EventType m_EventType;
     };
@@ -106,8 +126,7 @@ namespace mondengine{
         [[deprecated("Replaced by Dispatch(EventConsumer)")]]
         bool Dispatch(EventFn<T> func)
         {
-            if (m_Event.GetEventType() == T::GetStaticType())
-            {
+            if (m_Event.GetEventType() == T::GetStaticType()) {
                 dispatch(func);
                 return true;
             }
@@ -115,28 +134,31 @@ namespace mondengine{
         }
 
         template<typename T>
-        bool Dispatch(EventConsumer<T>& consumer)
+        bool Dispatch(EventConsumer<T> &consumer)
         {
-            if(m_Event == consumer) {
-                dispatch(consumer.GetFunction());
+            if (m_Event == consumer) {
+                consumer(m_Event);
                 return true;
             }
             return false;
         }
+
     protected:
         template<typename T>
-        bool dispatch(EventFn<T> func) {
+        bool dispatch(EventFn<T> func)
+        {
             m_Event.m_Handled = func(*(T *) &m_Event);
             return true;
         }
+
     private:
         Event &m_Event;
     };
-
-}// event
+} // event
 // mondengine
 template<>
 struct fmt::formatter<mondengine::Event>: fmt::formatter<std::string> {
     fmt::basic_appender<char>  format(mondengine::Event &e, format_context &ctx) const;
 };
+
 #endif //NINDO_EVENT_H

@@ -9,23 +9,39 @@ namespace mondengine {
 
     void TickObjectHandler::Tick()
     {
-        for (const auto &item: m_Children) {
+        for (const auto &item: m_children) {
             if(item == nullptr) {
-                m_Children.erase(item);
+                m_children.erase(item);
                 continue;
             }
-            item->Get()->Tick();
+            item->Tick();
         }
     }
 
-    void RenderObjectHandler::Render(float lag)
+    void TickObjectHandler::Add(ITickObject *object)
     {
-        for (const auto &item: m_Children) {
+        if(object == nullptr) {
+            return;
+        }
+        m_children.insert(object);
+    }
+
+    void RenderObjectHandler::Render(Renderer &renderer, float lag)
+    {
+        for (const auto &item: m_children) {
             if(item == nullptr) {
-                m_Children.erase(item);
+                m_children.erase(item);
                 continue;
             }
-            item->Get()->Render(lag);
+            item->Render(renderer, lag);
         }
+    }
+
+    void RenderObjectHandler::Add(IRenderObject *object)
+    {
+        if(object == nullptr) {
+            return;
+        }
+        m_children.insert(object);
     }
 } // mondengine
