@@ -2,7 +2,7 @@
 // Created by MondGnu on 2/16/2024.
 //
 
-#include <engine/graphics/cube.h>
+
 #include "engine/engine.h"
 
 namespace mondengine {
@@ -24,6 +24,9 @@ namespace mondengine {
         return 0;
     }
 
+
+    Rectangle* rectangle;
+    ShapeRenderer* shapeRenderer;
 
     void Engine::wait_for_exit_loop()
     {
@@ -48,6 +51,8 @@ namespace mondengine {
 
         shader.SetMat4("projection", projection);
         shader.bind();
+        shapeRenderer = new ShapeRenderer(shader);
+        rectangle = new Rectangle(glm::vec2(200.0f, 200.0f), glm::vec2(50.0f, 50.0f), 0.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 
         graphics::SpriteRenderer renderer(shader);
         double previous = CURRENT_TIME_MILLIS();
@@ -93,7 +98,9 @@ namespace mondengine {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        m_RenderHandler.Render(renderer, lag);
+        shapeRenderer->Render(*rectangle);
+
+        m_RenderHandler.Render(lag);
 
         m_Window->OnUpdate();
     }

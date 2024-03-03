@@ -25,6 +25,7 @@ namespace mondengine {
 
         MOND_API void SetMat4(const char* name, glm::mat4& mat);
         MOND_API void SetVector3f(const char* name, glm::vec3 vec);
+        MOND_API void SetBool(const char* name, bool b);
     };
 }
 #endif //MONDENGINE_SHADER_H

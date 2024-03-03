@@ -15,6 +15,11 @@
 #include "event/event.h"
 #include "platform/windows/windows_window.h"
 #include "game_object.h"
+
+#include <engine/graphics/cube.h>
+#include <engine/shapes/shape.h>
+#include <engine/shapes/rectangle.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>

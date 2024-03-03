@@ -116,6 +116,14 @@ add_library(MondEngine SHARED
         include/engine/graphics/renderer.h
         src/engine/texture.cpp
         include/engine/texture.h
+        src/engine/sprite.cpp
+        include/engine/sprite.h
+        src/engine/shapes/rectangle.cpp
+        include/engine/shapes/rectangle.h
+        src/engine/shapes/shape.cpp
+        include/engine/shapes/shape.h
+        src/engine/transformable.cpp
+        include/engine/transformable.h
 )
 
 target_precompile_headers(MondEngine PUBLIC
@@ -183,6 +191,14 @@ add_library(MondEngine_lib STATIC
 
         src/engine/texture.cpp
         include/engine/texture.h
+        src/engine/sprite.cpp
+        include/engine/sprite.h
+        src/engine/shapes/rectangle.cpp
+        include/engine/shapes/rectangle.h
+        src/engine/shapes/shape.cpp
+        include/engine/shapes/shape.h
+        src/engine/transformable.cpp
+        include/engine/transformable.h
 )
 
 target_precompile_headers(MondEngine_lib REUSE_FROM MondEngine)

@@ -6,14 +6,16 @@
 #define NINDO_GAME_OBJECT_H
 
 #include "util/general.h"
-#include "graphics/renderer.h"
 #include "node.h"
+#include "graphics/renderer.h"
 
 namespace mondengine {
+using namespace graphics;
 
-    class IRenderObject : public Node<IRenderObject>{
+    template<typename R>
+    class IRenderObject : public Node<IRenderObject<R>>{
     public:
-        virtual void Render(graphics::SpriteRenderer renderer, float lag) = 0;
+        virtual void Render(Renderer<R> render, float lag) = 0;
     };
 
     class ITickObject : public Node<ITickObject>{
@@ -21,10 +23,12 @@ namespace mondengine {
         virtual void Tick() = 0;
     };
 
-    class IStaticGameObject : public IRenderObject {
+    template<typename R>
+    class IStaticGameObject : public IRenderObject<R> {
     };
 
-    class IGameObject : public IRenderObject, public ITickObject {
+    template<typename R>
+    class IGameObject : public IRenderObject<R>, public ITickObject {
 
     };
 
@@ -32,11 +36,14 @@ namespace mondengine {
     public:
         void Tick() override;
     private:
+
     };
     class RenderObjectHandler : public IRenderObject {
     public:
-        void Render(graphics::SpriteRenderer renderer, float lag) override;
+        void Render(float lag) override;
     };
+
+
 } // mondengine
 
 #endif //NINDO_GAME_OBJECT_H

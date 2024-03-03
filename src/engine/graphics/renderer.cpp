@@ -7,17 +7,6 @@
 
 namespace mondengine::graphics {
 
-    void Renderer::SetPos(glm::mat4 &mat)
-    {
-        m_Shader->SetMat4("model", mat);
-    }
-
-    Renderer::Renderer(Shader *shader) : m_Shader(shader) {}
-
-    Shader *Renderer::GetShader()
-    {
-        return m_Shader;
-    }
 
     SpriteRenderer::SpriteRenderer(Shader &shader) : m_Shader(shader)
     {

@@ -99,4 +99,11 @@ namespace mondengine {
         GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(m_id, name));
         GL_CHECK_ERROR_FN(glUniform3f(loc, vec.x, vec.y, vec.z));
     }
+
+    void Shader::SetBool(const char *name, bool b)
+    {
+        BIND_IF_NOT
+        GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(m_id, name));
+        GL_CHECK_ERROR_FN(glUniform1i(loc, b));
+    }
 }

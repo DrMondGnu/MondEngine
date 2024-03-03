@@ -9,6 +9,7 @@
 #include "library.h"
 #include "vao.h"
 #include "engine/texture.h"
+#include "engine/game_object.h"
 
 namespace mondengine::graphics {
 
@@ -21,13 +22,25 @@ namespace mondengine::graphics {
         VAO m_Vao;
     };
 
+    template<typename R>
     class Renderer {
     public:
-        explicit Renderer(Shader *shader);
-        MOND_API void SetPos(glm::mat4& mat);
-        MOND_API Shader* GetShader();
-    private:
-        Shader* m_Shader;
+        explicit Renderer(Shader &shader) : shader(shader) {}
+        virtual void Render(R& r) = 0;
+    protected:
+        void setModel(glm::mat4 model) const
+        {
+            shader.SetMat4("model", model);
+        }
+
+        void setColor(glm::vec3 color) const
+        {
+            shader.SetVector3f("color", color);
+        }
+        void setUseTexture(bool b) const{
+            shader.SetBool("useTexture", b);
+        }
+        Shader& shader;
     };
 
 } // graphics
