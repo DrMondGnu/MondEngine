@@ -16,6 +16,8 @@ namespace mondengine {
         mp_mond_engine_logger->set_level(spdlog::level::trace);
         MOE_TRACE("MondEngine logger initialized!");
         mp_app_logger = std::make_shared<spdlog::logger>("App", stdout_sink);
+        MOE_TRACE("App logger initialized!");
+        mp_app_logger->set_level(spdlog::level::trace);
     }
 
     const std::shared_ptr<spdlog::logger> &Log::get_mond_engine_logger()

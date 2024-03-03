@@ -21,11 +21,11 @@ namespace mondengine {
     class KeyEvent : public Event{
     public:
 
-        EVENT_CLASS_CATEGORY(EventCategoryKeyboard);
-        [[nodiscard]] int GetKeyCode() const;
-        [[nodiscard]] int GetScancode() const;
-        [[nodiscard]] int GetAction() const;
-        [[nodiscard]] int GetMods() const;
+        EVENT_CLASS_CATEGORY(mondengine::EventCategoryKeyboard);
+        MOND_API [[nodiscard]] int GetKeyCode() const;
+        MOND_API [[nodiscard]] int GetScancode() const;
+        MOND_API [[nodiscard]] int GetAction() const;
+        MOND_API [[nodiscard]] int GetMods() const;
     protected:
         KeyEvent(int mKeyCode, int mScancode, int mAction, int mMods);
 

@@ -77,6 +77,7 @@ namespace mondengine {
     void Engine::OnEvent(Event &event)
     {
         MOE_INFO("Event: {0}", event);
+        m_eventHandler.Dispatch(event);
     }
 
 
@@ -121,5 +122,6 @@ namespace mondengine {
     {
         wait_for_exit_loop();
     }
+
 
 } // mondengine

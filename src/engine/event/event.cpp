@@ -7,10 +7,6 @@
 
 namespace mondengine {
 
-    bool Event::IsHandled() const
-    {
-        return m_Handled;
-    }
 
 } // event
 // mondengine

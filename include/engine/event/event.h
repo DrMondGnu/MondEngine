@@ -8,6 +8,7 @@
 #include <functional>
 #include <string>
 #include "fmt/format.h"
+#include "engine/log.h"
 
 namespace mondengine {
 
@@ -15,11 +16,11 @@ namespace mondengine {
 #define EVENT_ID_SIZE 16
 
 #define BIT(x) (1 << x)
-#define CATEGORIZE(c, x) ((x << 8)+c)
-#define REMOVE_CATEGORY(x) (x>>8)
+#define CATEGORIZE(c, x) ((x << EVENT_CATEGORY_SIZE)+c)
+#define REMOVE_CATEGORY(x) (x >> EVENT_CATEGORY_SIZE)
 #define CATEGORY_OF(x) (x&255)
-#define EVENT_TYPE_TO_ID(x) CATEGORY_OF(x)
-#define EVENT_TYPE_TO_CATEGORY(x) REMOVE_CATEGORY(x)
+#define EVENT_TYPE_TO_ID(x) REMOVE_CATEGORY(x)
+#define EVENT_TYPE_TO_CATEGORY(x) CATEGORY_OF(x)
 #define EVENT_TYPE(c, x) CATEGORIZE(c, x)
     // EventType consists of EventCategory and EventId
     // The first 8 bits are used for the EventCategory
@@ -62,25 +63,35 @@ namespace mondengine {
 
         [[nodiscard]] virtual std::string ToString() const = 0;
 
-        [[nodiscard]] bool IsHandled() const;
-
     protected:
-        bool m_Handled = false;
+    };
+
+    class IEventConsumer {
+    public:
+        virtual bool ConsumeEvent(Event& event) const = 0;
     };
 
     template<typename E>
-    class EventConsumer {
+    class EventConsumer : public IEventConsumer{
         using EventFn = std::function<bool(E &)>;
     public:
-        EventConsumer(const EventFn &fn, EventType eventType) : function(fn), m_EventType(eventType) {}
+        explicit EventConsumer(const EventFn &fn, EventType eventType) : function(fn), m_EventType(eventType) {}
 
-        bool operator==(Event &event)
+        bool ConsumeEvent(Event &event) const override
+        {
+            if (*this == event) {
+                return function(*(E *) &event); // Downcast and call function
+            }
+            return false;
+        }
+
+        bool operator==(Event &event) const
         {
             return event.GetEventType() == m_EventType ||
                    (REMOVE_CATEGORY(m_EventType) == 0 && event.GetEventCategory() == CATEGORY_OF(m_EventType));
         }
 
-        void operator()(E &event)
+        void operator()(E &event) const
         {
             function(event);
         }
@@ -127,33 +138,53 @@ namespace mondengine {
         bool Dispatch(EventFn<T> func)
         {
             if (m_Event.GetEventType() == T::GetStaticType()) {
-                dispatch(func);
-                return true;
+                return dispatch(func);
             }
             return false;
         }
 
-        template<typename T>
-        bool Dispatch(EventConsumer<T> &consumer)
+
+        bool Dispatch(IEventConsumer &consumer)
         {
-            if (m_Event == consumer) {
-                consumer(m_Event);
-                return true;
-            }
-            return false;
+            return consumer.ConsumeEvent(m_Event);
         }
 
     protected:
         template<typename T>
         bool dispatch(EventFn<T> func)
         {
-            m_Event.m_Handled = func(*(T *) &m_Event);
-            return true;
+            return func(*(T *) &m_Event);
         }
 
     private:
         Event &m_Event;
     };
+
+    class EventHandler {
+    public:
+        template<typename T>
+        void Add(EventConsumer<T>* consumer) {
+            MOE_TRACE("Event added: (type: {}, category: {})", consumer->GetEventType(), consumer->GetCategory());
+            Add(consumer->GetCategory(), consumer);
+        }
+        void Add(EventCategory category, IEventConsumer* consumer) {
+            MOE_TRACE("Event added: (category: {})", category);
+            m_consumers[category].push_back(consumer);
+        }
+        bool Dispatch(Event& event) {
+            MOE_TRACE("Dispatching event: (type:{}, category:{})", event.GetEventType(), event.GetEventCategory());
+            for (const auto &item: m_consumers[event.GetEventCategory()]) {
+                if(item == nullptr) {
+                    continue;
+                }
+                item->ConsumeEvent(event);
+            }
+            return false;
+        }
+    private:
+        std::unordered_map<EventCategory, std::vector<IEventConsumer*>> m_consumers;
+    };
+
 } // event
 // mondengine
 template<>

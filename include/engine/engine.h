@@ -34,6 +34,13 @@ namespace mondengine {
         int init();
         MOND_API void Start();
         void OnEvent(Event& event);
+
+        template<class T>
+        MOND_API void AddEventConsumer(EventConsumer<T>* consumer)
+        {
+            m_eventHandler.Add(consumer);
+        }
+
         MOND_API void AddTickObject(ITickObject* object);
         MOND_API void AddRenderObject(IRenderObject* object);
         MOND_API void AddGameObject(IGameObject* object);
@@ -46,6 +53,7 @@ namespace mondengine {
         TickObjectHandler m_TickHandler;
         RenderObjectHandler m_RenderHandler;
         Window* m_Window = nullptr;
+        EventHandler m_eventHandler;
     };
 
 } // mondengine
