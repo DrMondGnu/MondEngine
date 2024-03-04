@@ -6,9 +6,9 @@
 
 
 namespace mondengine{
-    KeyEvent::KeyEvent(int mKeyCode, int mScancode, int mAction, int mMods) : m_KeyCode(mKeyCode),
+    KeyEvent::KeyEvent(int mKeyCode, int mScancode, int mAction, int mMods, EventId id) : m_KeyCode(mKeyCode),
                                                                               m_Scancode(mScancode), m_Action(mAction),
-                                                                              m_Mods(mMods) {}
+                                                                              m_Mods(mMods), Event(id, EventCategoryKeyboard) {}
 
     int KeyEvent::GetKeyCode() const
     {
@@ -30,16 +30,36 @@ namespace mondengine{
         return m_Mods;
     }
 
-    std::string KeyDownEvent::ToString() const {
-        return fmt::format("KeyDownEvent(KeyCode: {}, Scancode: {}, Action: {}, Mods: {})", m_KeyCode, m_Scancode, m_Action, m_Mods);
+    std::string KeyEvent::ToString() const
+    {
+        return fmt::format("{}(KeyCode: {}, Scancode: {}, Action: {}, Mods: {})", GetName(),m_KeyCode, m_Scancode, m_Action, m_Mods);
     }
 
-    std::string KeyPressedEvent::ToString() const {
-        return fmt::format("KeyPressedEvent(KeyCode: {}, Scancode: {}, Action: {}, Mods: {}", m_KeyCode, m_Scancode, m_Action, m_Mods);
+
+    void KeyEventHandler::DispatchPressed()
+    {
+
     }
 
-    std::string KeyUpEvent::ToString() const {
-        return fmt::format("KeyUpEvent(KeyCode: {}, Scancode: {}, Action: {}, Mods: {}", m_KeyCode, m_Scancode, m_Action, m_Mods);
+    void KeyEventHandler::Dispatch(KeyEvent &event)
+    {
+        if(event.GetAction() == GLFW_PRESS) {
+            pressedKeys.insert(event.GetKeyCode());
+            return;
+        }
+        for (const auto &item: m_consumers[event.GetEventCategory()]) {
+            if(item == nullptr) {
+                continue;
+            }
+            item->ConsumeEvent(event);
+        }
     }
+
+    void KeyEventHandler::Add(EventConsumer<KeyEvent>* consumer)
+    {
+        m_consumers[consumer->GetEventCategory()].push_back(consumer);
+    }
+
+
 } // event
 // mondengine

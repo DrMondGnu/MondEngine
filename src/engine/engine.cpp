@@ -54,6 +54,7 @@ namespace mondengine {
         Renderer renderer(shader);
         double previous = CURRENT_TIME_MILLIS();
         double lag = 0.0f;
+        long ticks = 0;
         while (!m_Window->ShouldClose())
         {
             double current = CURRENT_TIME_MILLIS();
@@ -65,6 +66,7 @@ namespace mondengine {
 
             while(lag >= MS_PER_UPDATE) {
                 tick();
+                ticks++;
                 lag -= MS_PER_UPDATE;
             }
 
@@ -85,9 +87,16 @@ namespace mondengine {
     {
 
     }
-
+    double last_second = 0;
+    double tick_rate = 0;
     void Engine::tick()
     {
+        if(last_second+1000 <= CURRENT_TIME_MILLIS()) {
+            last_second = CURRENT_TIME_MILLIS();
+            MOE_TRACE("Tick rate: {}", tick_rate);
+            tick_rate = 0;
+        }
+        tick_rate++;
         m_TickHandler.Tick();
     }
 

@@ -41,82 +41,96 @@ namespace mondengine {
         EventCategoryCustom = BIT(6)
     };
 
-#define EVENT_CLASS_TYPE(type, name)    [[nodiscard]] virtual EventType GetEventType() const override { return type; } \
-                                        [[nodiscard]] virtual EventId GetEventId() const override { return REMOVE_CATEGORY(type); }\
-                                        [[nodiscard]] virtual const char* GetName() const override { return name; }
+#define EVENT_NAME(name) virtual const char* GetName() const { return name; }
 
-
-#define EVENT_CLASS_CATEGORY(category) [[nodiscard]] virtual EventCategory GetEventCategory() const override { return category; }
-
-
-    class Event {
-        friend class EventDispatcher;
-
+    class EventTyped {
     public:
-        [[nodiscard]] virtual const char *GetName() const = 0;
-
-        [[nodiscard]] virtual EventType GetEventType() const = 0;
-
-        [[nodiscard]] virtual EventId GetEventId() const = 0;
-
-        [[nodiscard]] virtual EventCategory GetEventCategory() const = 0;
-
-        [[nodiscard]] virtual std::string ToString() const = 0;
-
+        MOND_API [[nodiscard]] EventType GetEventType() const;
+        MOND_API [[nodiscard]] EventId GetEventId() const;
+        MOND_API [[nodiscard]] EventCategory GetEventCategory() const;
+        /**
+         *
+         * @param eventTyped
+         * @return true if category and id is same
+         */
+        MOND_API bool operator==(EventTyped& eventTyped) const;
+        /**
+         *
+         * @param eventTyped
+         * @return true if EventType is same or id is 0 for either and category matches
+         */
+        MOND_API bool EqualsCategory(EventTyped& eventTyped) const;
     protected:
+        MOND_API explicit EventTyped(EventType eventType);
+        MOND_API EventTyped(EventId id, EventCategory category);
+        EventType eventType;
     };
 
-    class IEventConsumer {
+    class Event : public EventTyped{
+        friend class EventDispatcher;
     public:
-        virtual bool ConsumeEvent(Event& event) const = 0;
+        MOND_API [[nodiscard]] virtual const char *GetName() const = 0;
+        MOND_API [[nodiscard]] virtual std::string ToString() const = 0;
+    protected:
+        explicit Event(EventType eventType);
+        Event(EventId id, EventCategory category);
+    };
+
+    template<typename T>
+    class IEventConsumerBase {
+        MOND_API virtual void ConsumeEvent(T& event) const = 0;
+    };
+
+    class IEventConsumer : public IEventConsumerBase<Event>, public EventTyped{
+    public:
+        MOND_API explicit IEventConsumer(EventType eventType);
+
+        MOND_API IEventConsumer(EventId id, EventCategory category);
+
+        void ConsumeEvent(Event& event) const override = 0;
     };
 
     template<typename E>
-    class EventConsumer : public IEventConsumer{
-        using EventFn = std::function<bool(E &)>;
+    class EventConsumer : public IEventConsumer {
+        using EventFn = std::function<void(E&)>;
     public:
-        explicit EventConsumer(const EventFn &fn, EventType eventType) : function(fn), m_EventType(eventType) {}
+        explicit EventConsumer(const EventFn fn, EventType eventType) : function(fn), IEventConsumer(eventType) {}
 
-        bool ConsumeEvent(Event &event) const override
+        void ConsumeEvent(Event &event) const override
         {
-            if (*this == event) {
-                return function(*(E *) &event); // Downcast and call function
+            if (EqualsCategory(event)) {
+                function(*(E *) &event); // Downcast and call function
             }
-            return false;
         }
 
-        bool operator==(Event &event) const
-        {
-            return event.GetEventType() == m_EventType ||
-                   (REMOVE_CATEGORY(m_EventType) == 0 && event.GetEventCategory() == CATEGORY_OF(m_EventType));
-        }
-
+        /**
+         * Calls internal callback function
+         * @param event event to use on callback
+         */
         void operator()(E &event) const
         {
             function(event);
         }
-
+        /**
+         *
+         * @return internal callback function
+         */
         const EventFn &GetFunction() const
         {
             return function;
         }
 
-        [[nodiscard]] EventCategory GetCategory() const
-        {
-            return EVENT_TYPE_TO_CATEGORY(m_EventType);
-        }
-
-        [[nodiscard]] EventType GetEventType() const
-        {
-            return m_EventType;
-        }
-
     protected:
+        /**
+         * Internal callback function
+         */
         EventFn function;
-    private:
-        EventType m_EventType;
     };
 
+    /**
+     * Used to dispatch events
+     * May be deprecated in the future
+     */
     class EventDispatcher {
         template<typename T>
         using EventFn = std::function<bool(T &)>;
@@ -135,44 +149,53 @@ namespace mondengine {
          */
         template<typename T>
         [[deprecated("Replaced by Dispatch(EventConsumer)")]]
-        bool Dispatch(EventFn<T> func)
+        void Dispatch(EventFn<T> func)
         {
             if (m_Event.GetEventType() == T::GetStaticType()) {
-                return dispatch(func);
+                dispatch(func);
             }
-            return false;
         }
 
 
-        bool Dispatch(IEventConsumer &consumer)
+        void Dispatch(IEventConsumer &consumer)
         {
-            return consumer.ConsumeEvent(m_Event);
+            consumer.ConsumeEvent(m_Event);
         }
 
     protected:
         template<typename T>
-        bool dispatch(EventFn<T> func)
+        void dispatch(EventFn<T> func)
         {
-            return func(*(T *) &m_Event);
+            func(*(T *) &m_Event);
         }
 
     private:
         Event &m_Event;
     };
 
+    /**
+     * Event handler to handle every event and store multiple callbacks
+     */
     class EventHandler {
     public:
+        /**
+         * Adds consumer to callback list, filters with event type and category
+         * @tparam T Event type
+         * @param consumer callback
+         */
         template<typename T>
         void Add(EventConsumer<T>* consumer) {
-            MOE_TRACE("Event added: (type: {}, category: {})", consumer->GetEventType(), consumer->GetCategory());
-            Add(consumer->GetCategory(), consumer);
+            MOE_TRACE("Event added: (type: {}, category: {})", consumer->GetEventType(), consumer->GetEventCategory());
+            Add(consumer->GetEventCategory(), consumer);
         }
         void Add(EventCategory category, IEventConsumer* consumer) {
             MOE_TRACE("Event added: (category: {})", category);
             m_consumers[category].push_back(consumer);
         }
+        /*+
+         * Dispatches event to all matching callback functions
+         */
         bool Dispatch(Event& event) {
-            MOE_TRACE("Dispatching event: (type:{}, category:{})", event.GetEventType(), event.GetEventCategory());
             for (const auto &item: m_consumers[event.GetEventCategory()]) {
                 if(item == nullptr) {
                     continue;
@@ -184,6 +207,25 @@ namespace mondengine {
     private:
         std::unordered_map<EventCategory, std::vector<IEventConsumer*>> m_consumers;
     };
+
+    /*class EventNode {
+    public:
+        void DispatchEvent(Event& event);
+        void RemoveNode(EventNode* node);
+        void AddNode(EventNode* node);
+        template<typename T>
+        void AddConsumer(EventConsumer<T>* consumer)
+        {
+            handler.Add(consumer);
+        }
+    protected:
+        virtual void onEvent(Event& event);
+        virtual bool filter(Event& event);
+        EventNode* parent;
+        EventHandler handler;
+        std::unordered_set<EventNode*> children;
+    };*/
+
 
 } // event
 // mondengine

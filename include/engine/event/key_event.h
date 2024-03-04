@@ -18,50 +18,63 @@ namespace mondengine {
         KeyUp = CATEGORIZE(EventCategoryKeyboard, 3)
     };
 
-    class KeyEvent : public Event{
+    class KeyEvent : public Event {
     public:
-
-        EVENT_CLASS_CATEGORY(mondengine::EventCategoryKeyboard);
         MOND_API [[nodiscard]] int GetKeyCode() const;
+
         MOND_API [[nodiscard]] int GetScancode() const;
+
         MOND_API [[nodiscard]] int GetAction() const;
+
         MOND_API [[nodiscard]] int GetMods() const;
+
+        [[nodiscard]] std::string ToString() const override;
+
     protected:
-        KeyEvent(int mKeyCode, int mScancode, int mAction, int mMods);
+        KeyEvent(int mKeyCode, int mScancode, int mAction, int mMods, EventId id);
 
         int m_KeyCode;
         int m_Scancode;
         int m_Action;
         int m_Mods;
     };
+
     class KeyDownEvent : public KeyEvent {
     public:
-        EVENT_CLASS_TYPE(KeyDown, "KeyDownEvent");
-
+        EVENT_NAME("KeyDownEvent")
         KeyDownEvent(int mKeyCode, int mScancode, int mAction, int mMods) : KeyEvent(mKeyCode, mScancode, mAction,
-                                                                                     mMods) {}
+                                                                                     mMods,
 
-        [[nodiscard]] std::string ToString() const override;
+                                                                                     EVENT_TYPE_TO_ID(KeyDown)) {}
     };
+
     class KeyPressedEvent : public KeyEvent {
     public:
-        EVENT_CLASS_TYPE(KeyPressed, "KeyPressedEvent");
+        EVENT_NAME("KeyPressedEvent")
 
         KeyPressedEvent(int mKeyCode, int mScancode, int mAction, int mMods) : KeyEvent(mKeyCode, mScancode, mAction,
-                                                                                        mMods) {}
-
-        [[nodiscard]] std::string ToString() const override;
+                                                                                        mMods, EVENT_TYPE_TO_ID(KeyPressed)) {}
     };
+
     class KeyUpEvent : public KeyEvent {
     public:
-        EVENT_CLASS_TYPE(KeyUp, "KeyUpEvent");
+        EVENT_NAME("KeyUpEvent")
 
         KeyUpEvent(int mKeyCode, int mScancode, int mAction, int mMods) : KeyEvent(mKeyCode, mScancode, mAction,
-                                                                                   mMods) {}
-
-        [[nodiscard]] std::string ToString() const override;
+                                                                                   mMods, EVENT_TYPE_TO_ID(KeyUp)) {}
     };
 
+
+
+    class KeyEventHandler {
+    public:
+        void Add(EventConsumer<KeyEvent>* consumer);
+        void DispatchPressed();
+        void Dispatch(KeyEvent& event);
+    protected:
+        std::unordered_map<EventCategory, std::vector<EventConsumer<KeyEvent>*>> m_consumers;
+        std::unordered_set<int> pressedKeys;
+    };
 } // event
 // mondengine
 

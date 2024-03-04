@@ -24,7 +24,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#define CURRENT_TIME_MILLIS() std::chrono::system_clock::now().time_since_epoch().count()
+#define CURRENT_TIME_MILLIS() std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()
 #define MS_PER_UPDATE (1000.0 / 60.0)
 
 namespace mondengine {
