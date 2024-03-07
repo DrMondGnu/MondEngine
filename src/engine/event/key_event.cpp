@@ -35,31 +35,18 @@ namespace mondengine{
         return fmt::format("{}(KeyCode: {}, Scancode: {}, Action: {}, Mods: {})", GetName(),m_KeyCode, m_Scancode, m_Action, m_Mods);
     }
 
-
-    void KeyEventHandler::DispatchPressed()
+    bool KeyEvent::operator==(const KeyEvent &rhs) const
     {
-
+        return m_KeyCode == rhs.m_KeyCode &&
+               m_Scancode == rhs.m_Scancode &&
+               m_Action == rhs.m_Action &&
+               m_Mods == rhs.m_Mods;
     }
 
-    void KeyEventHandler::Dispatch(KeyEvent &event)
+    bool KeyEvent::operator!=(const KeyEvent &rhs) const
     {
-        if(event.GetAction() == GLFW_PRESS) {
-            pressedKeys.insert(event.GetKeyCode());
-            return;
-        }
-        for (const auto &item: m_consumers[event.GetEventCategory()]) {
-            if(item == nullptr) {
-                continue;
-            }
-            item->ConsumeEvent(event);
-        }
+        return !(rhs == *this);
     }
-
-    void KeyEventHandler::Add(EventConsumer<KeyEvent>* consumer)
-    {
-        m_consumers[consumer->GetEventCategory()].push_back(consumer);
-    }
-
 
 } // event
 // mondengine

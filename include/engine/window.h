@@ -16,7 +16,8 @@ namespace mondengine {
         using EventCallbackFn = std::function<void(Event &)>;
         virtual ~Window() = default;
 
-        virtual void OnUpdate() = 0;
+        virtual void FetchInput() = 0;
+        virtual void OnRender() = 0;
         virtual void ShutDown() = 0;
         virtual bool ShouldClose() = 0;
         virtual void SetEventCallback(EventCallbackFn callbackFn) = 0;

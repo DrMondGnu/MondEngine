@@ -36,7 +36,7 @@ namespace mondengine {
         renderer.SetModel(ModelMatrix());
         renderer.SetUseTexture(false);
         renderer.SetColor(color);
-        Vao->draw(0, 6);
+        draw();
     }
 
     Rectangle::Rectangle(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color)
@@ -46,6 +46,11 @@ namespace mondengine {
         {
             InitVao();
         }
+    }
+
+    void Rectangle::draw()
+    {
+        Vao->draw(0, 6);
     }
 
 } // mondengine
