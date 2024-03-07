@@ -7,40 +7,6 @@
 
 namespace mondengine {
 
-
-/*    void EventNode::AddNode(EventNode *node)
-    {
-        if (node == nullptr) {
-            return;
-        }
-        node->parent->RemoveNode(node);
-        node->parent = this;
-        children.insert(parent);
-    }
-
-    void EventNode::RemoveNode(EventNode *node)
-    {
-        node->parent = nullptr;
-        children.erase(node);
-    }
-
-    void EventNode::DispatchEvent(Event &event)
-    {
-        if (filter(event)) {
-            onEvent(event);
-        }
-    }
-
-    void EventNode::onEvent(Event &event)
-    {
-        handler.Dispatch(event);
-    }
-
-    bool EventNode::filter(Event &event)
-    {
-        return true;
-    }*/
-
     EventType EventTyped::GetEventType() const
     {
         return eventType;
@@ -62,13 +28,6 @@ namespace mondengine {
 
     }
 
-    EventTyped::EventTyped(EventType eventType) : eventType(eventType) {}
-
-    EventTyped::EventTyped(EventId id, EventCategory category) : eventType(CATEGORIZE(category, id))
-    {
-
-    }
-
     bool EventTyped::EqualsCategory(EventTyped &eventTyped) const
     {
         return *this == eventTyped
@@ -79,9 +38,6 @@ namespace mondengine {
 
     Event::Event(EventId id, EventCategory category) : EventTyped(id, category) {}
 
-    IEventConsumer::IEventConsumer(EventType eventType) : EventTyped(eventType) {}
-
-    IEventConsumer::IEventConsumer(EventId id, EventCategory category) : EventTyped(id, category) {}
 } // event
 // mondengine
 

@@ -15,9 +15,12 @@ namespace mondengine {
 
         explicit WindowsWindow(WindowProperties& properties);
 
-        void OnUpdate() override;
+        void FetchInput() override;
         void ShutDown() override;
         bool ShouldClose() override;
+
+        void OnRender() override;
+
         void SetEventCallback(EventCallbackFn callbackFn) override;
     private:
         void Init(WindowProperties& properties);

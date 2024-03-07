@@ -45,6 +45,9 @@ namespace mondengine {
 
     class EventTyped {
     public:
+        MOND_API explicit EventTyped(EventType eventType) : eventType(eventType) {};
+        MOND_API explicit EventTyped(EventCategory category) : eventType(CATEGORIZE(category, 0)) {};
+        MOND_API EventTyped(EventId id, EventCategory category) : eventType(CATEGORIZE(category, id)) {};
         MOND_API [[nodiscard]] EventType GetEventType() const;
         MOND_API [[nodiscard]] EventId GetEventId() const;
         MOND_API [[nodiscard]] EventCategory GetEventCategory() const;
@@ -61,8 +64,6 @@ namespace mondengine {
          */
         MOND_API bool EqualsCategory(EventTyped& eventTyped) const;
     protected:
-        MOND_API explicit EventTyped(EventType eventType);
-        MOND_API EventTyped(EventId id, EventCategory category);
         EventType eventType;
     };
 
@@ -76,156 +77,36 @@ namespace mondengine {
         Event(EventId id, EventCategory category);
     };
 
-    template<typename T>
-    class IEventConsumerBase {
-        MOND_API virtual void ConsumeEvent(T& event) const = 0;
-    };
-
-    class IEventConsumer : public IEventConsumerBase<Event>, public EventTyped{
-    public:
-        MOND_API explicit IEventConsumer(EventType eventType);
-
-        MOND_API IEventConsumer(EventId id, EventCategory category);
-
-        void ConsumeEvent(Event& event) const override = 0;
-    };
-
-    template<typename E>
-    class EventConsumer : public IEventConsumer {
-        using EventFn = std::function<void(E&)>;
-    public:
-        explicit EventConsumer(const EventFn fn, EventType eventType) : function(fn), IEventConsumer(eventType) {}
-
-        void ConsumeEvent(Event &event) const override
-        {
-            if (EqualsCategory(event)) {
-                function(*(E *) &event); // Downcast and call function
-            }
-        }
-
-        /**
-         * Calls internal callback function
-         * @param event event to use on callback
-         */
-        void operator()(E &event) const
-        {
-            function(event);
-        }
-        /**
-         *
-         * @return internal callback function
-         */
-        const EventFn &GetFunction() const
-        {
-            return function;
-        }
-
-    protected:
-        /**
-         * Internal callback function
-         */
-        EventFn function;
-    };
-
-    /**
-     * Used to dispatch events
-     * May be deprecated in the future
-     */
-    class EventDispatcher {
-        template<typename T>
-        using EventFn = std::function<bool(T &)>;
-    public:
-        explicit EventDispatcher(Event &event) : m_Event(event) {}
-
-        /**
-         *
-         * @tparam T the event type which must have:
-         * @code
-         * static EventType GetStaticType();
-         * static CategoryType GetStaticCategory();
-         * @endcode
-         * @param func function that consumes event
-         * @return if it was able to consume event
-         */
-        template<typename T>
-        [[deprecated("Replaced by Dispatch(EventConsumer)")]]
-        void Dispatch(EventFn<T> func)
-        {
-            if (m_Event.GetEventType() == T::GetStaticType()) {
-                dispatch(func);
-            }
-        }
-
-
-        void Dispatch(IEventConsumer &consumer)
-        {
-            consumer.ConsumeEvent(m_Event);
-        }
-
-    protected:
-        template<typename T>
-        void dispatch(EventFn<T> func)
-        {
-            func(*(T *) &m_Event);
-        }
-
-    private:
-        Event &m_Event;
-    };
+    typedef std::function<void(const Event &)> EventConsumer;
 
     /**
      * Event handler to handle every event and store multiple callbacks
      */
-    class EventHandler {
+    class EventManager {
     public:
-        /**
-         * Adds consumer to callback list, filters with event type and category
-         * @tparam T Event type
-         * @param consumer callback
-         */
-        template<typename T>
-        void Add(EventConsumer<T>* consumer) {
-            MOE_TRACE("Event added: (type: {}, category: {})", consumer->GetEventType(), consumer->GetEventCategory());
-            Add(consumer->GetEventCategory(), consumer);
-        }
-        void Add(EventCategory category, IEventConsumer* consumer) {
-            MOE_TRACE("Event added: (category: {})", category);
-            m_consumers[category].push_back(consumer);
+
+        void Add(EventTyped filter, const EventConsumer& consumer) {
+//            MOE_TRACE("Event added: (filter: {})", filter.GetEventType());
+            m_consumers[filter.GetEventCategory()].push_back({consumer,filter.GetEventId()});
         }
         /*+
          * Dispatches event to all matching callback functions
          */
-        bool Dispatch(Event& event) {
+        void Dispatch(const Event& event) {
+//            MOE_TRACE("Dispatching event: {}", event.ToString());
             for (const auto &item: m_consumers[event.GetEventCategory()]) {
-                if(item == nullptr) {
-                    continue;
+                if(item.id == event.GetEventId() || item.id == 0) {
+                    item.consumer(event);
                 }
-                item->ConsumeEvent(event);
             }
-            return false;
         }
     private:
-        std::unordered_map<EventCategory, std::vector<IEventConsumer*>> m_consumers;
+        struct RegisteredEventConsumer {
+            const EventConsumer consumer;
+            EventId id;
+        };
+        std::unordered_map<EventCategory, std::vector<RegisteredEventConsumer>> m_consumers;
     };
-
-    /*class EventNode {
-    public:
-        void DispatchEvent(Event& event);
-        void RemoveNode(EventNode* node);
-        void AddNode(EventNode* node);
-        template<typename T>
-        void AddConsumer(EventConsumer<T>* consumer)
-        {
-            handler.Add(consumer);
-        }
-    protected:
-        virtual void onEvent(Event& event);
-        virtual bool filter(Event& event);
-        EventNode* parent;
-        EventHandler handler;
-        std::unordered_set<EventNode*> children;
-    };*/
-
 
 } // event
 // mondengine

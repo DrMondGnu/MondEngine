@@ -16,12 +16,6 @@ namespace mondengine {
         Init(properties);
     }
 
-    void WindowsWindow::OnUpdate()
-    {
-        glfwPollEvents();
-        glfwSwapBuffers(m_Window);
-    }
-
     void WindowsWindow::ShutDown()
     {
         glfwDestroyWindow(m_Window);
@@ -37,7 +31,7 @@ namespace mondengine {
             return;
         }
 
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // OpenGL 3.3
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
@@ -69,15 +63,15 @@ namespace mondengine {
 
             if(action == GLFW_PRESS)
             {
-                KeyDownEvent event(key, scancode, action, mods);
+                KeyDownEvent event(key, scancode, mods);
                 data.eventCallback(event);
             }else if(action == GLFW_RELEASE)
             {
-                KeyUpEvent event(key, scancode, action, mods);
+                KeyUpEvent event(key, scancode, mods);
                 data.eventCallback(event);
             } else if(action == GLFW_REPEAT)
             {
-                KeyPressedEvent event(key, scancode, action, mods);
+                KeyPressedEvent event(key, scancode, mods);
                 data.eventCallback(event);
             }
 
@@ -88,4 +82,14 @@ namespace mondengine {
     {
         return glfwWindowShouldClose(m_Window);
     }
+
+    void WindowsWindow::OnRender()
+    {
+        glfwSwapBuffers(m_Window);
+    }
+    void WindowsWindow::FetchInput()
+    {
+        glfwPollEvents();
+    }
+
 } // mondengine

@@ -2,6 +2,7 @@
 // Created by MondGnu on 2/29/2024.
 //
 
+#include <engine/shapes/rectangle.h>
 #include "engine/game_object.h"
 
 namespace mondengine {

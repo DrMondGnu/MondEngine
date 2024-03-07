@@ -16,6 +16,8 @@ namespace mondengine {
         MOND_API Rectangle();
         MOND_API Rectangle(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color);
         MOND_API void Render(Renderer &renderer, float lag) override;
+    protected:
+        void draw();
     private:
         static void InitVao();
         inline static VAO* Vao = nullptr;
