@@ -47,8 +47,6 @@ add_library(MondEngine SHARED
         include/engine/log.h
         src/engine/engine.cpp
         include/engine/engine.h
-        src/engine/init.cpp
-        include/engine/init.h
         include/types.h
         src/engine/shader.cpp
         include/engine/shader.h
@@ -121,8 +119,6 @@ add_library(MondEngine_lib STATIC
         include/engine/log.h
         src/engine/engine.cpp
         include/engine/engine.h
-        src/engine/init.cpp
-        include/engine/init.h
         include/types.h
         src/engine/shader.cpp
         include/engine/shader.h
