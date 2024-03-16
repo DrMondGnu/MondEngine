@@ -14,7 +14,6 @@ namespace mondengine::graphics {
     {
         bind();
         glDrawArrays(GL_TRIANGLES, first, count);
-0
     }
 
     void VAO::AddAttribPointer(GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer,
