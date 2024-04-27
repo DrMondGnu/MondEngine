@@ -11,7 +11,7 @@ namespace mondengine {
         m_Data.eventCallback = callbackFn;
     }
 
-    WindowsWindow::WindowsWindow(WindowProperties &properties)
+    WindowsWindow::WindowsWindow(const WindowProperties &properties)
     {
         Init(properties);
     }
@@ -21,7 +21,7 @@ namespace mondengine {
         glfwDestroyWindow(m_Window);
     }
 
-    void WindowsWindow::Init(WindowProperties &properties)
+    void WindowsWindow::Init(const WindowProperties &properties)
     {
         MOE_TRACE("Creating window {0} ({1}, {2}", properties.title, properties.width, properties.height);
         glewExperimental = true; // Needed for core profile

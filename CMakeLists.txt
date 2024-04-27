@@ -58,6 +58,8 @@ add_library(MondEngine STATIC
         include/engine/transformable.h
         src/engine/event/KeyEvent.cpp
         include/engine/event/KeyEvent.h
+        include/engine/Platform.h
+        src/engine/Platform.cpp
 )
 
 target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE)

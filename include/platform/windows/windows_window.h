@@ -13,7 +13,7 @@ namespace mondengine {
     class WindowsWindow : public Window{
     public:
 
-        explicit WindowsWindow(WindowProperties& properties);
+        explicit WindowsWindow(const WindowProperties& properties);
 
         void FetchInput() override;
         void ShutDown() override;
@@ -23,7 +23,7 @@ namespace mondengine {
 
         void SetEventCallback(EventCallbackFn callbackFn) override;
     private:
-        void Init(WindowProperties& properties);
+        void Init(const WindowProperties& properties);
 
         GLFWwindow* m_Window;
         struct WindowData

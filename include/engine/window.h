@@ -4,7 +4,9 @@
 
 #ifndef NINDO_WINDOW_H
 #define NINDO_WINDOW_H
+
 #include <Event.h>
+
 namespace mondengine {
     struct WindowProperties {
         std::string title;
