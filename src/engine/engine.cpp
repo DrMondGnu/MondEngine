@@ -20,7 +20,7 @@ namespace mondengine {
         properties.height = 768;
         properties.vsync = true;
         m_Window = new WindowsWindow(properties);
-        m_Window->SetEventCallback(std::bind(&Engine::OnEvent, this, std::placeholders::_1));
+        m_Window->SetEventCallback([this](auto && PH1) { OnEvent(std::forward<decltype(PH1)>(PH1)); });
         return 0;
     }
 
