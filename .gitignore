@@ -1,2 +1,3 @@
 libs/spdlog/build
 cmake-build-debug
+.idea
