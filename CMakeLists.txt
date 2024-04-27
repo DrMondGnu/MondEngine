@@ -7,10 +7,9 @@ set(CMAKE_CXX_STANDARD 23)
 add_subdirectory(libs)
 
 # GLEW
-list(APPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/glew-2.1.0)
+list(APPEND CMAKE_PREFIX_PATH libs/glew-2.1.0)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
-
 
 
 # Shared Lib
@@ -34,16 +33,10 @@ add_library(MondEngine STATIC
         include/util/general.h
         src/engine/graphics/ebo.cpp
         include/engine/graphics/ebo.h
-        src/engine/event/key_event.cpp
-        include/engine/event/key_event.h
-        src/engine/event/event.cpp
-        include/engine/event/event.h
         src/engine/window.cpp
         include/engine/window.h
         src/platform/windows/windows_window.cpp
         include/platform/windows/windows_window.h
-        src/engine/event/window_event.cpp
-        include/engine/event/window_event.h
         src/engine/graphics/cube.cpp
         include/engine/graphics/cube.h
         include/engine/graphics/shapes.h
@@ -63,11 +56,13 @@ add_library(MondEngine STATIC
         include/engine/shapes/shape.h
         src/engine/transformable.cpp
         include/engine/transformable.h
+        src/engine/event/KeyEvent.cpp
+        include/engine/event/KeyEvent.h
 )
 
 target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE)
 # Linking
-target_link_libraries(MondEngine PUBLIC stb glfw fmt::fmt spdlog GLEW::glew ${OPENGL_LIBRARIES})
+target_link_libraries(MondEngine PUBLIC stb glfw fmt::fmt spdlog GLEW::glew ${OPENGL_LIBRARIES} EventSystem)
 
 # Include directories
 target_include_directories(MondEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/libs/glm ${GLEW_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS})

@@ -32,3 +32,6 @@ add_library(stb STATIC util/stb_image.h
 target_include_directories(stb INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/libs/util)
 endif ()
 
+# EventSystem
+add_subdirectory(EventSystem)
+

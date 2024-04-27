@@ -3,7 +3,7 @@
 //
 
 #include "platform/windows/windows_window.h"
-#include "engine/event/key_event.h"
+#include "engine/event/KeyEvent.h"
 
 namespace mondengine {
     void WindowsWindow::SetEventCallback(Window::EventCallbackFn callbackFn)

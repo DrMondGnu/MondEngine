@@ -78,26 +78,7 @@ namespace mondengine {
      */
     void Engine::OnEvent(Event &event)
     {
-        MOE_INFO("Event: {0}", event);
-        if(event.GetEventCategory() == EventCategoryKeyboard) {
-            auto& keyEvent = (KeyEvent&)event;
-            auto action = keyEvent.GetAction();
-            switch (action) {
-                case GLFW_PRESS:
-                    m_keys.insert((KeyPressedEvent)keyEvent);
-                    break;
-                case GLFW_RELEASE:
-                    m_keys.erase((KeyPressedEvent)  keyEvent);
-                    break;
-                case GLFW_REPEAT:
-                    return;
-                    break;
-                default:
-                    break;
-            }
-
-        }
-        m_eventManager.Dispatch(event);
+        MOE_INFO("Event: {0}", event.GetType());
     }
 
     /*
@@ -106,9 +87,9 @@ namespace mondengine {
     void Engine::process_input()
     {
         m_Window->FetchInput();
-        for (const auto &item: m_keys) {
-            m_eventManager.Dispatch(item);
-        }
+//        for (const auto &item: m_keys) {
+//            m_eventManager.Dispatch(item);
+//        }
     }
 
 

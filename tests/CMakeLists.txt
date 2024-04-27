@@ -1,15 +1,8 @@
-project(MondEngine_tests)
+cmake_minimum_required(VERSION 3.27)
 
-add_subdirectory(gtest_lib)
+add_executable(MondEngineTests doctest.h src/logging_test.cpp
+        src/node_tests.cpp
+        src/DoctestImpl.cpp
+        src/EventTests.cpp)
 
-include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
-
-add_executable(MondEngine_tests_run logging_test.cpp
-        init_engine_tests.cpp
-        file_util_tests.cpp
-        event_tests.cpp
-        node_tests.cpp)
-
-target_link_libraries(MondEngine_tests_run MondEngine)
-target_link_libraries(MondEngine_tests_run gtest gtest_main)
+target_link_libraries(MondEngineTests MondEngine)
