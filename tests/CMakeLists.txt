@@ -11,7 +11,5 @@ add_executable(MondEngine_tests_run logging_test.cpp
         event_tests.cpp
         node_tests.cpp)
 
-target_link_libraries(MondEngine_tests_run MondEngine_lib)
+target_link_libraries(MondEngine_tests_run MondEngine)
 target_link_libraries(MondEngine_tests_run gtest gtest_main)
-
-copy_dlls_to_target(MondEngine_tests_run "${MOND_ENGINE_REQUIRED_DLLS}")
