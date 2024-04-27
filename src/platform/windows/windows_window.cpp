@@ -35,6 +35,10 @@ namespace mondengine {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+        if(!properties.visible) {
+            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        }
+
         m_Window = glfwCreateWindow((int) properties.width, (int) properties.height, properties.title.c_str(), nullptr,
                                     nullptr);
         if (m_Window == nullptr)
@@ -90,6 +94,14 @@ namespace mondengine {
     void WindowsWindow::FetchInput()
     {
         glfwPollEvents();
+    }
+
+    void WindowsWindow::SetVisibility(bool visibility)
+    {
+        if(visibility) {
+            glfwShowWindow(m_Window);
+        }
+        glfwHideWindow(m_Window);
     }
 
 } // mondengine

@@ -15,6 +15,8 @@ namespace mondengine {
 
         explicit WindowsWindow(const WindowProperties& properties);
 
+        void SetVisibility(bool visibility) override;
+
         void FetchInput() override;
         void ShutDown() override;
         bool ShouldClose() override;

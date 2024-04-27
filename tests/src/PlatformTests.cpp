@@ -8,7 +8,7 @@ using namespace mondengine;
 
 TEST_CASE("MakeWindow") {
 #ifdef _WIN32
-    WindowProperties properties{"TestWindow" , 600, 600, false};
+    WindowProperties properties{"TestWindow" , 600, 600, false, false};
     Window* window = MakeWindow(properties);
     CHECK_EQ(typeid(WindowsWindow), typeid(*window));
 #endif

@@ -11,6 +11,7 @@ namespace mondengine {
     struct WindowProperties {
         std::string title;
         unsigned int width, height;
+        bool visible;
         bool vsync;
     };
     class Window {
@@ -18,6 +19,7 @@ namespace mondengine {
         using EventCallbackFn = std::function<void(Event &)>;
         virtual ~Window() = default;
 
+        virtual void SetVisibility(bool visibility) = 0;
         virtual void FetchInput() = 0;
         virtual void OnRender() = 0;
         virtual void ShutDown() = 0;
