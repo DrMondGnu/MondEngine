@@ -100,7 +100,7 @@ namespace mondengine {
     requires IsKeyEvent<T>
     class KeyEventListener : public DefaultEventListener<T> {
     public:
-        void HandleEvent(const Event &event) override
+        void HandleEvent(const KeyEvent &event) override
         {
             if(KeyEventTypeMatch(event.GetType(), type)) {
                 this->callHandlers((const T&)event);
