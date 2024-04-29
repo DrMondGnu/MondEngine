@@ -2,7 +2,7 @@
 // Created by MondGnu on 2/21/2024.
 //
 
-#include "engine/shader.h"
+#include "engine/Shader/Shader.h"
 
 namespace mondengine {
     Shader::Shader(const char *fShaderFile, const char *vShaderFile)
@@ -53,14 +53,14 @@ namespace mondengine {
 
         // Link shaders
         MOE_TRACE("Linking programm");
-        m_id = glCreateProgram();
-        glAttachShader(m_id, VertexShaderID);
-        glAttachShader(m_id, FragmentShaderID);
-        glLinkProgram(m_id);
+        id = glCreateProgram();
+        glAttachShader(id, VertexShaderID);
+        glAttachShader(id, FragmentShaderID);
+        glLinkProgram(id);
 
         // Check linking status
-        glGetProgramiv(m_id, GL_LINK_STATUS, &result);
-        glGetProgramiv(m_id, GL_INFO_LOG_LENGTH, &infoLogLength);
+        glGetProgramiv(id, GL_LINK_STATUS, &result);
+        glGetProgramiv(id, GL_INFO_LOG_LENGTH, &infoLogLength);
         if(infoLogLength > 0) {
             auto* msg = new GLchar[infoLogLength+1];
             glGetShaderInfoLog(VertexShaderID, infoLogLength, nullptr, &msg[0]);
@@ -71,39 +71,41 @@ namespace mondengine {
         glDeleteShader(FragmentShaderID);
     }
 
-    void Shader::bind()
+    void Shader::Bind() const
     {
-        RETURN_IF_BOUND
-        glUseProgram(m_id);
-        m_bound = true;
+        glUseProgram(id);
     }
 
-    void Shader::unbind()
+    void Shader::Unbind() const
     {
-        RETURN_IF_NOT_BOUND
         glUseProgram(0);
-        m_bound = false;
     }
 
-    void Shader::SetMat4(const char * name, glm::mat4& mat)
+    void Shader::SetMat4(const char * name, const glm::mat4& mat) const
     {
-        BIND_IF_NOT
-        GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(m_id, name));
+        // TODO: Bind shader
+        GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(id, name));
 //        MOE_TRACE("Setting matrix4: (name: {}, location: {})", name, loc);
         GL_CHECK_ERROR_FN(glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat)));
     }
 
-    void Shader::SetVector3f(const char *name, glm::vec3 vec)
+    void Shader::SetVector3f(const char *name, const glm::vec3 &vec) const
     {
-        BIND_IF_NOT
-        GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(m_id, name));
+        GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(id, name));
         GL_CHECK_ERROR_FN(glUniform3f(loc, vec.x, vec.y, vec.z));
     }
 
-    void Shader::SetBool(const char *name, bool b)
+    void Shader::SetBool(const char *name, const bool &b) const
     {
-        BIND_IF_NOT
-        GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(m_id, name));
+        GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(id, name));
         GL_CHECK_ERROR_FN(glUniform1i(loc, b));
+    }
+
+    Shader::Shader() {}
+
+    void Shader::SetVector4f(const char *name, const glm::vec4 &vec) const
+    {
+        GLuint loc = GL_CHECK_ERROR_FN(glGetUniformLocation(id, name));
+        GL_CHECK_ERROR_FN(glUniform4f(loc, vec.x, vec.y, vec.z, vec.w));
     }
 }

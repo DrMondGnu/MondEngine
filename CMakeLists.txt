@@ -19,47 +19,46 @@ add_library(MondEngine STATIC
         src/engine/engine.cpp
         include/engine/engine.h
         include/types.h
-        src/engine/shader.cpp
-        include/engine/shader.h
+        src/engine/Shader/Shader.cpp
+        include/engine/Shader/Shader.h
         src/util/file.cpp
         include/util/file.h
-        include/engine/graphics/vao.h
-        src/engine/graphics/vao.cpp
-        src/engine/graphics/vbo.cpp
-        include/engine/graphics/vbo.h
+        include/engine/Graphics/Core/vao.h
+        src/engine/Graphics/Core/vao.cpp
+        src/engine/Graphics/Core/vbo.cpp
+        include/engine/Graphics/Core/vbo.h
         src/engine/glid.cpp
         include/engine/glid.h
         include/util/opengl.h
         include/util/general.h
-        src/engine/graphics/ebo.cpp
-        include/engine/graphics/ebo.h
+        src/engine/Graphics/Core/ebo.cpp
+        include/engine/Graphics/Core/ebo.h
         src/engine/window.cpp
         include/engine/window.h
         src/platform/windows/windows_window.cpp
         include/platform/windows/windows_window.h
-        src/engine/graphics/cube.cpp
-        include/engine/graphics/cube.h
-        include/engine/graphics/shapes.h
-        src/engine/game_object.cpp
-        include/engine/game_object.h
+        src/engine/TickObject.cpp
+        include/engine/TickObject.h
         src/node.cpp
         include/node.h
-        src/engine/graphics/renderer.cpp
-        include/engine/graphics/renderer.h
         src/engine/texture.cpp
         include/engine/texture.h
-        src/engine/sprite.cpp
-        include/engine/sprite.h
-        src/engine/shapes/rectangle.cpp
-        include/engine/shapes/rectangle.h
-        src/engine/shapes/shape.cpp
-        include/engine/shapes/shape.h
         src/engine/transformable.cpp
         include/engine/transformable.h
         src/engine/event/KeyEvent.cpp
         include/engine/event/KeyEvent.h
         include/engine/Platform.h
         src/engine/Platform.cpp
+        src/engine/Graphics/Drawable.cpp
+        include/engine/Graphics/Drawable.h
+        src/engine/Transform.cpp
+        include/engine/Transform.h
+        src/engine/Graphics/RenderObject.cpp
+        include/engine/Graphics/RenderObject.h
+        src/engine/Shader/DrawableShader.cpp
+        include/engine/Shader/DrawableShader.h
+        src/engine/Graphics/Renderer.cpp
+        include/engine/Graphics/Renderer.h
 )
 
 target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE)

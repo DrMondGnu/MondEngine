@@ -1,7 +1,7 @@
 //
 // Created by MondGnu on 4/27/2024.
 //
-#include "../doctest.h"
+#include "../../lib/doctest.h"
 #include <EventNode.h>
 #include <engine/event/KeyEvent.h>
 

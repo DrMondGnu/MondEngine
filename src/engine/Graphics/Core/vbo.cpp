@@ -2,7 +2,7 @@
 // Created by MondGnu on 2/26/2024.
 //
 
-#include "engine/graphics/vbo.h"
+#include "engine/graphics/Core/vbo.h"
 
 
 namespace mondengine::graphics {

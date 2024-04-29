@@ -2,7 +2,7 @@
 // Created by MondGnu on 2/29/2024.
 //
 
-#include "../doctest.h"
+#include "doctest.h"
 #include "node.h"
 
 class TestNode : public Node<TestNode> {

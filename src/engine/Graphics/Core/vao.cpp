@@ -1,7 +1,7 @@
 // Created by MondGnu on 2/24/2024.
 //
 
-#include "engine/graphics/vao.h"
+#include "engine/graphics/Core/vao.h"
 
 namespace mondengine::graphics {
     VAO::VAO() : mc_attrib(0)

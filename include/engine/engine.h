@@ -12,17 +12,12 @@
 #include <GLFW/glfw3.h>
 
 #include "log.h"
-#include "graphics/vao.h"
-#include "shader.h"
+#include "engine/graphics/Core/vao.h"
+#include "engine/Shader/Shader.h"
 #include "util/opengl.h"
 #include "window.h"
 #include "platform/windows/windows_window.h"
-#include "game_object.h"
-
-
-#include <engine/graphics/cube.h>
-#include <engine/shapes/shape.h>
-#include <engine/shapes/rectangle.h>
+#include "TickObject.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -45,21 +40,14 @@ namespace mondengine {
 
 
 
-        MOND_API void AddTickObject(ITickObject *object);
+        MOND_API void AddTickObject(TickObject *object);
 
-        MOND_API void AddRenderObject(IRenderObject *object);
-
-        MOND_API void AddGameObject(IGameObject *object);
 
     private:
-        void wait_for_exit_loop();
-        void process_input();
-        void tick();
-        void render(Renderer renderer, float lag);
+
 
 
         TickObjectHandler m_TickHandler;
-        RenderObjectHandler m_RenderHandler;
         Window *m_Window = nullptr;
         EventNode m_eventNode;
     };

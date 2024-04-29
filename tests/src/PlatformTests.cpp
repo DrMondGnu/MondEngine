@@ -1,7 +1,7 @@
 //
 // Created by MondGnu on 4/27/2024.
 //
-#include "../doctest.h"
+#include "doctest.h"
 #include "engine/Platform.h"
 
 using namespace mondengine;

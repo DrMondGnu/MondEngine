@@ -5,7 +5,7 @@
 #ifndef NINDO_VBO_H
 #define NINDO_VBO_H
 
-#include <GL/glew.h>
+#include "GL/glew.h"
 #include "engine/glid.h"
 #include "util/opengl.h"
 

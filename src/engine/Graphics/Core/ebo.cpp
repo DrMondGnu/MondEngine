@@ -2,7 +2,7 @@
 // Created by MondGnu on 2/27/2024.
 //
 
-#include "engine/graphics/ebo.h"
+#include "engine/graphics/Core/ebo.h"
 
 
 namespace mondengine::graphics {

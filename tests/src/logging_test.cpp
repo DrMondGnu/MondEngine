@@ -1,7 +1,7 @@
 //
 // Created by MondGnu on 16.02.2024.
 //
-#include "../doctest.h"
+#include "doctest.h"
 #include "engine/log.h"
 
 

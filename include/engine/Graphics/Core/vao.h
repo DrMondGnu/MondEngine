@@ -5,7 +5,7 @@
 #ifndef NINDO_VAO_H
 #define NINDO_VAO_H
 
-#include <GL/glew.h>
+#include "GL/glew.h"
 #include "engine/glid.h"
 #include "vbo.h"
 #include "ebo.h"
