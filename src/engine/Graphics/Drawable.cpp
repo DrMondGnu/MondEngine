@@ -12,8 +12,9 @@ namespace mondengine {
     {
         auto& shader = GetShader();
         shader.Bind();
-        shader.SetMat4("model", ModelMatrix());
-        shader.SetVector4f("color", GetColor());
+        shader.SetModelMatrix(ModelMatrix());
+        shader.SetColor(GetColor());
+        Draw();
     }
 
 } // mondengine

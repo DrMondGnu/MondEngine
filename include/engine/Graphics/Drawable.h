@@ -21,21 +21,13 @@ namespace mondengine {
         /**
          * draws should not set any shaders or model matrices
          */
-        virtual void Draw() = 0;
+        virtual void Draw() const = 0;
         [[nodiscard]] virtual const DrawableShader& GetShader() const = 0;
         [[nodiscard]] virtual const glm::vec4& GetColor() const = 0;
     };
 
     template <typename T>
     concept IsDrawable = std::derived_from<T, Drawable>;
-
-    template <typename T>
-    requires IsDrawable<T>
-    class Renderer<T> {
-        void Render(const T& object) {
-            // TODO: Set shader usw
-        }
-    };
 } // mondengine
 
 #endif //MONDENGINE_DRAWABLE_H

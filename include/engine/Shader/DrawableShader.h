@@ -17,8 +17,8 @@ namespace mondengine {
 
         explicit DrawableShader(const GLuint &id);
 
-        virtual void SetModelMatrix(const glm::mat4& model) = 0;
-        virtual void SetColor(const glm::vec4& color) = 0;
+        virtual void SetModelMatrix(const glm::mat4& model) const = 0;
+        virtual void SetColor(const glm::vec4& color) const = 0;
     };
 
 } // mondengine

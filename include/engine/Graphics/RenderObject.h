@@ -5,7 +5,10 @@
 #ifndef MONDENGINE_RENDEROBJECT_H
 #define MONDENGINE_RENDEROBJECT_H
 
+#include <set>
+
 #include "Renderer.h"
+
 
 namespace mondengine {
 
@@ -15,9 +18,24 @@ namespace mondengine {
     };
 
     template <> class Renderer<RenderObject> {
+    public:
         void Render(const RenderObject& object) {
             object.Render();
         }
+    };
+    template <> class Renderer<RenderObject*> {
+    public:
+        void Render(const RenderObject*& object) {
+            object->Render();
+        }
+    };
+
+    class RenderObjectHandler : public RenderObject{
+    public:
+        void Render() const override;
+
+    protected:
+        std::set<RenderObject*> objects;
     };
 } // mondengine
 

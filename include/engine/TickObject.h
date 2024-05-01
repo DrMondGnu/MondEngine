@@ -6,6 +6,7 @@
 #define NINDO_GAME_OBJECT_H
 
 #include <library.h>
+#include <set>
 #include "util/general.h"
 
 
@@ -22,7 +23,7 @@ namespace mondengine {
         void Tick() override;
         void Add(TickObject* object);
     private:
-        std::unordered_set<TickObject*> m_children;
+        std::set<TickObject*> m_children;
     };
 
 
