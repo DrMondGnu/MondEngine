@@ -15,14 +15,8 @@ namespace mondengine {
     public:
         DrawableShader();
 
-        explicit DrawableShader(const GLuint &id);
-
-        [[nodiscard]] const GLuint &GetId() const override;
-
         virtual void SetModelMatrix(const glm::mat4& model) const = 0;
         virtual void SetColor(const glm::vec4& color) const = 0;
-    protected:
-        GLuint id;
     };
 
 } // mondengine
