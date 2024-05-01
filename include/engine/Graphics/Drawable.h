@@ -22,11 +22,8 @@ namespace mondengine {
          * draws should not set any shaders or model matrices
          */
         virtual void Draw() = 0;
-        [[nodiscard]] const Shader& GetShader() const;
-        [[nodiscard]] const glm::vec4& GetColor() const;
-    protected:
-        Shader shader;
-        glm::vec4 color = glm::vec4(0, 0, 0, 0);
+        [[nodiscard]] virtual const Shader& GetShader() const = 0;
+        [[nodiscard]] virtual const glm::vec4& GetColor() const = 0;
     };
 
     template <typename T>
