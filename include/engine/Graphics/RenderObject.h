@@ -33,7 +33,7 @@ namespace mondengine {
     class RenderObjectHandler : public RenderObject{
     public:
         void Render() const override;
-        void AddRenderObject(RenderObject*& object);
+        void AddRenderObject(RenderObject*&& object);
     protected:
         std::set<RenderObject*> objects;
     };

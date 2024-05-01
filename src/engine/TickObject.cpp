@@ -18,7 +18,7 @@ namespace mondengine {
         }
     }
 
-    void TickObjectHandler::AddTickObject(TickObject *object)
+    void TickObjectHandler::AddTickObject(TickObject *&&object)
     {
         if(object == nullptr) {
             return;

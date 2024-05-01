@@ -13,7 +13,7 @@ namespace mondengine {
         }
     }
 
-    void RenderObjectHandler::AddRenderObject(RenderObject *&object)
+    void RenderObjectHandler::AddRenderObject(RenderObject *&&object)
     {
         objects.insert(object);
     }
