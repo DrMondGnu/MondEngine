@@ -2,12 +2,13 @@
 // Created by MondGnu on 5/1/2024.
 //
 #include "doctest.h"
+#include <fmt/format.h>
 #include "engine/File/FileReader.h"
 
 using namespace mondengine;
 
 TEST_CASE("StreamFileReaderTests") {
-    std::filesystem::path path(MOND_ENGINE_TEST_FILE);
+    std::filesystem::path path(fmt::format("{}/{}", MOND_ENGINE_RESOURCE_DIR, "test.txt"));
     StreamFileReader reader(path);
     SUBCASE("ReadBytesTest") {
         char* buf = new char[11];

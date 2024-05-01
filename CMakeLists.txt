@@ -61,6 +61,8 @@ add_library(MondEngine STATIC
         include/engine/Graphics/Renderer.h
         src/engine/File/FileReader.cpp
         include/engine/File/FileReader.h
+        src/engine/Shader/ShaderCompiler.cpp
+        include/engine/Shader/ShaderCompiler.h
 )
 
 target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE)

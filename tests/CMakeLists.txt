@@ -12,4 +12,4 @@ target_include_directories(MondEngineTests PUBLIC lib)
 
 target_link_libraries(MondEngineTests MondEngine)
 
-target_compile_definitions(MondEngineTests PUBLIC MOND_ENGINE_TEST_FILE="${CMAKE_CURRENT_SOURCE_DIR}/test.txt")
+target_compile_definitions(MondEngineTests PUBLIC MOND_ENGINE_RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/resources")
