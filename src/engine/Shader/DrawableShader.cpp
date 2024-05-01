@@ -7,4 +7,7 @@
 namespace mondengine {
 
 
+    DrawableShader::DrawableShader() = default;
+
+    DrawableShader::DrawableShader(const GLuint &id) : Shader(id) {}
 } // mondengine
