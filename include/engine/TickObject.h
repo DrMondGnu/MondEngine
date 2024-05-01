@@ -21,7 +21,7 @@ namespace mondengine {
     class TickObjectHandler : TickObject{
     public:
         void Tick() override;
-        void Add(TickObject* object);
+        void AddTickObject(TickObject* object);
     private:
         std::set<TickObject*> m_children;
     };
