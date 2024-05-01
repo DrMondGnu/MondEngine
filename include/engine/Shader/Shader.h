@@ -20,17 +20,16 @@ namespace mondengine {
     public:
         Shader();
 
-        explicit Shader(const GLuint& id);
-
         void Bind() const;
         void Unbind() const;
+
+        [[nodiscard]] virtual const GLuint& GetId() const = 0;
 
         virtual void SetMat4(const char* name, const glm::mat4& mat) const;
         virtual void SetVector3f(const char* name, const glm::vec3 &vec) const;
         virtual void SetVector4f(const char* name, const glm::vec4 &vec) const;
         virtual void SetBool(const char* name, const bool &b) const;
     protected:
-        GLuint id{};
     };
 }
 #endif //MONDENGINE_SHADER_H
