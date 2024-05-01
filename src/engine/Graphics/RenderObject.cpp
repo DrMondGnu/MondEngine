@@ -12,4 +12,9 @@ namespace mondengine {
             renderer.Render((const RenderObject *&) item);
         }
     }
+
+    void RenderObjectHandler::AddRenderObject(RenderObject *&object)
+    {
+        objects.insert(object);
+    }
 } // mondengine
