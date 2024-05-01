@@ -10,7 +10,7 @@
 #include "RenderObject.h"
 #include "Renderer.h"
 #include "engine/Transform.h"
-#include "engine/Shader/Shader.h"
+#include "engine/Shader/DrawableShader.h"
 
 namespace mondengine {
 
@@ -22,7 +22,7 @@ namespace mondengine {
          * draws should not set any shaders or model matrices
          */
         virtual void Draw() = 0;
-        [[nodiscard]] virtual const Shader& GetShader() const = 0;
+        [[nodiscard]] virtual const DrawableShader& GetShader() const = 0;
         [[nodiscard]] virtual const glm::vec4& GetColor() const = 0;
     };
 

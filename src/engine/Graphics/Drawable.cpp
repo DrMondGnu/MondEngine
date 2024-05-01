@@ -10,7 +10,7 @@ namespace mondengine {
 
     void Drawable::Render() const
     {
-        auto shader = GetShader();
+        auto& shader = GetShader();
         shader.Bind();
         shader.SetMat4("model", ModelMatrix());
         shader.SetVector4f("color", GetColor());

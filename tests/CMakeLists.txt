@@ -5,8 +5,11 @@ add_executable(MondEngineTests lib/doctest.h src/logging_test.cpp
         src/DoctestImpl.cpp
         src/Event/EventTests.cpp
         src/PlatformTests.cpp
-        src/Graphics/RendererTests.cpp)
+        src/Graphics/RendererTests.cpp
+        src/File/FileReaderTests.cpp)
 
 target_include_directories(MondEngineTests PUBLIC lib)
 
 target_link_libraries(MondEngineTests MondEngine)
+
+target_compile_definitions(MondEngineTests PUBLIC MOND_ENGINE_TEST_FILE="${CMAKE_CURRENT_SOURCE_DIR}/test.txt")
