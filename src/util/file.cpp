@@ -4,7 +4,7 @@
 
 #include "util/file.h"
 
-namespace mondengine::file {
+namespace Mond::file {
 
     const char *read_file(const char *filename)
     {

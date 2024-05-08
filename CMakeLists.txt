@@ -14,58 +14,73 @@ find_package(OpenGL REQUIRED)
 
 # Shared Lib
 add_library(MondEngine STATIC
-        src/engine/log.cpp
-        include/engine/log.h
-        src/engine/engine.cpp
-        include/engine/engine.h
+        src/Engine/log.cpp
+        include/Engine/log.h
+        src/Engine/engine.cpp
+        include/Engine/engine.h
         include/types.h
-        src/engine/Shader/Shader.cpp
-        include/engine/Shader/Shader.h
+        src/Engine/Shader/Shader.cpp
+        include/Engine/Shader/Shader.h
         src/util/file.cpp
         include/util/file.h
-        include/engine/Graphics/Core/vao.h
-        src/engine/Graphics/Core/vao.cpp
-        src/engine/Graphics/Core/vbo.cpp
-        include/engine/Graphics/Core/vbo.h
-        src/engine/glid.cpp
-        include/engine/glid.h
+        src/Engine/glid.cpp
+        include/Engine/glid.h
         include/util/opengl.h
         include/util/general.h
-        src/engine/Graphics/Core/ebo.cpp
-        include/engine/Graphics/Core/ebo.h
-        src/engine/window.cpp
-        include/engine/window.h
+        src/Engine/window.cpp
+        include/Engine/window.h
         src/platform/windows/windows_window.cpp
-        include/platform/windows/windows_window.h
-        src/engine/TickObject.cpp
-        include/engine/TickObject.h
+        include/Platform/windows/windows_window.h
+        src/Engine/TickObject.cpp
+        include/Engine/TickObject.h
         src/node.cpp
         include/node.h
-        src/engine/texture.cpp
-        include/engine/texture.h
-        src/engine/transformable.cpp
-        include/engine/transformable.h
-        src/engine/event/KeyEvent.cpp
-        include/engine/event/KeyEvent.h
-        include/engine/Platform.h
-        src/engine/Platform.cpp
-        src/engine/Graphics/Drawable.cpp
-        include/engine/Graphics/Drawable.h
-        src/engine/Transform.cpp
-        include/engine/Transform.h
-        src/engine/Graphics/RenderObject.cpp
-        include/engine/Graphics/RenderObject.h
-        src/engine/Shader/DrawableShader.cpp
-        include/engine/Shader/DrawableShader.h
-        src/engine/Graphics/Renderer.cpp
-        include/engine/Graphics/Renderer.h
-        src/engine/File/FileReader.cpp
-        include/engine/File/FileReader.h
-        src/engine/Shader/ShaderCompiler.cpp
-        include/engine/Shader/ShaderCompiler.h
+        src/Engine/texture.cpp
+        include/Engine/texture.h
+        src/Engine/transformable.cpp
+        include/Engine/transformable.h
+        src/Engine/Event/KeyEvent.cpp
+        include/Engine/Event/KeyEvent.h
+        include/Engine/Platform.h
+        src/Engine/Platform.cpp
+        src/Engine/Graphics/Drawable.cpp
+        include/Engine/Graphics/Drawable.h
+        src/Engine/Transform.cpp
+        include/Engine/Transform.h
+        src/Engine/Graphics/RenderObject.cpp
+        include/Engine/Graphics/RenderObject.h
+        src/Engine/Shader/DrawableShader.cpp
+        include/Engine/Shader/DrawableShader.h
+        src/Engine/Graphics/Renderer.cpp
+        include/Engine/Graphics/Renderer.h
+        src/Engine/File/FileReader.cpp
+        include/Engine/File/FileReader.h
+        src/Engine/Shader/ShaderCompiler.cpp
+        include/Engine/Shader/ShaderCompiler.h
+        src/Engine/Graphics/Shapes/Shape.cpp
+        include/Engine/Graphics/Shapes/Shape.h
+        src/Engine/Graphics/Shapes/Rectangle.cpp
+        include/Engine/Graphics/Shapes/Rectangle.h
+        src/Engine/Graphics/Core/VertexArray.cpp
+        include/Engine/Graphics/Core/VertexArray.h
+        include/Engine/Graphics/Core/Bindable.h
+        src/Engine/Graphics/Core/VertexBuffer.cpp
+        include/Engine/Graphics/Core/VertexBuffer.h
+        src/Engine/Graphics/Core/IndexBuffer.cpp
+        include/Engine/Graphics/Core/IndexBuffer.h
+        src/platform/OpenGL/OpenGlVertexBuffer.cpp
+        include/Platform/OpenGL/OpenGlVertexBuffer.h
+        src/platform/OpenGL/OpenGlVertexArray.cpp
+        include/Platform/OpenGL/OpenGlVertexArray.h
+        src/platform/OpenGL/OpenGlIndexBuffer.cpp
+        include/Platform/OpenGL/OpenGlIndexBuffer.h
+        src/Engine/Graphics/Core/Buffer.cpp
+        include/Engine/Graphics/Core/Buffer.h
+        src/platform/OpenGL/OpenGlBuffer.cpp
+        include/Platform/OpenGL/OpenGlBuffer.h
 )
 
-target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE)
+target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE PUBLIC MOND_ENGINE_OPENGL)
 # Linking
 target_link_libraries(MondEngine PUBLIC stb glfw fmt::fmt spdlog GLEW::glew ${OPENGL_LIBRARIES} EventSystem)
 

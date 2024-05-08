@@ -4,7 +4,8 @@
 #include "doctest.h"
 #include "engine/Platform.h"
 
-using namespace mondengine;
+using namespace Mond;
+using namespace Mond;
 
 TEST_CASE("MakeWindow") {
 #ifdef _WIN32

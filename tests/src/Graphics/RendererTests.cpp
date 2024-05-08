@@ -4,7 +4,7 @@
 #include "doctest.h"
 #include "engine/Graphics/Renderer.h"
 
-using namespace mondengine;
+using namespace Mond;
 
 class TestRenderedObject {
 public:

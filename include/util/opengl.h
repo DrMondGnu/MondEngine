@@ -24,7 +24,7 @@ inline void PrintOpenglErrors(const char* file, int line)
     GLenum err;
     while ((err = glGetError()) != GL_NO_ERROR)
     {
-        const char* fileName = mondengine::file::get_file_name(file);
+        const char* fileName = Mond::file::get_file_name(file);
         MOE_ERROR("OpenGL error in {} {}:{} : {}, {:x}",file, fileName,line, (char*)gluErrorString(err), err);
     }
 }

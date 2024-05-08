@@ -5,7 +5,7 @@
 #include <EventNode.h>
 #include <engine/event/KeyEvent.h>
 
-using namespace mondengine;
+using namespace Mond;
 
 template <typename T>
 requires IsKeyEvent<T>

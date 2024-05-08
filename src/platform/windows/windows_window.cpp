@@ -5,7 +5,7 @@
 #include "platform/windows/windows_window.h"
 #include "engine/event/KeyEvent.h"
 
-namespace mondengine {
+namespace Mond {
     void WindowsWindow::SetEventCallback(Window::EventCallbackFn callbackFn)
     {
         m_Data.eventCallback = callbackFn;
@@ -104,4 +104,4 @@ namespace mondengine {
         glfwHideWindow(m_Window);
     }
 
-} // mondengine
+} // Mond

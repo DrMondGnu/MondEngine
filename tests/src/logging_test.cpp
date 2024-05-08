@@ -6,7 +6,7 @@
 
 
 TEST_CASE("LogInitTest") {
-    mondengine::Log::init();
-    REQUIRE(mondengine::Log::get_mond_engine_logger() != nullptr);
-    CHECK(mondengine::Log::get_app_logger() != nullptr);
+    Mond::Log::init();
+    REQUIRE(Mond::Log::get_mond_engine_logger() != nullptr);
+    CHECK(Mond::Log::get_app_logger() != nullptr);
 }

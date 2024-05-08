@@ -5,7 +5,7 @@
 #include <fmt/format.h>
 #include "engine/File/FileReader.h"
 
-using namespace mondengine;
+using namespace Mond;
 
 TEST_CASE("StreamFileReaderTests") {
     std::filesystem::path path(fmt::format("{}/{}", MOND_ENGINE_RESOURCE_DIR, "test.txt"));

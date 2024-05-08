@@ -14,7 +14,7 @@
 #include "general.h"
 
 
-namespace mondengine::file {
+namespace Mond::file {
 
     MEcstr read_file(const char *filename);
     MOND_API const char* get_file_name(const char *filepath);
