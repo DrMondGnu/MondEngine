@@ -22,11 +22,15 @@ namespace Mond {
 
     const std::shared_ptr<spdlog::logger> &Log::get_mond_engine_logger()
     {
+        if(!mp_mond_engine_logger)
+            init();
         return mp_mond_engine_logger;
     }
 
     const std::shared_ptr<spdlog::logger> &Log::get_app_logger()
     {
+        if(!mp_app_logger)
+            init();
         return mp_app_logger;
     }
 

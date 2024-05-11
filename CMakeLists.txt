@@ -77,6 +77,7 @@ add_library(MondEngine STATIC
         src/platform/OpenGL/OpenGLBuffer.cpp
         include/Platform/OpenGL/OpenGLBuffer.h
         include/Engine/PlatformUtils.h
+        src/Engine/Graphics/Core/Bindable.cpp
 )
 
 target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE PUBLIC MOND_ENGINE_OPENGL)
