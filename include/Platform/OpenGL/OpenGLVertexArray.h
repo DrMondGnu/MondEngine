@@ -6,7 +6,7 @@
 #define MONDENGINE_OPENGLVERTEXARRAY_H
 
 #include "Engine/Graphics/Core/VertexArray.h"
-#include "Engine/Platform.h"
+#include "Engine/PlatformUtils.h"
 
 namespace Mond::Graphics::OpenGL {
 
@@ -24,6 +24,7 @@ namespace Mond::Graphics::OpenGL {
 
     protected:
         GLuint attributeIndex = 0;
+        GLsizei next = 0;
         GLuint id = 0;
     };
 

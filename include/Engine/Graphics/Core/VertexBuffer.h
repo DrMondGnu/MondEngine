@@ -13,8 +13,10 @@ namespace Mond::Graphics {
         GLint size;
         GLenum type;
         GLboolean normalized;
+        /**
+         * block size
+         */
         GLsizei stride;
-        const void* offset;
     };
 
     class VertexBuffer : public Buffer {

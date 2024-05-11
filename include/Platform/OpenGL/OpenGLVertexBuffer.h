@@ -7,8 +7,8 @@
 
 #include "Engine/Graphics/Core/VertexBuffer.h"
 
-#include "OpenGlBuffer.h"
-#include "Engine/Platform.h"
+#include "OpenGLBuffer.h"
+#include "Engine/PlatformUtils.h"
 
 namespace Mond::Graphics::OpenGL {
 

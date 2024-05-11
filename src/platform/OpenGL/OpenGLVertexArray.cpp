@@ -2,7 +2,7 @@
 // Created by MondGnu on 5/1/2024.
 //
 
-#include "Platform/OpenGL/OpenGlVertexArray.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 
 
 
@@ -27,9 +27,10 @@ namespace Mond::Graphics::OpenGL {
         Bind();
         buffer.Bind();
         auto layout = buffer.GetLayout();
-        glVertexAttribPointer(attributeIndex, layout.size, layout.type, layout.normalized, layout.size, layout.offset);
+        glVertexAttribPointer(attributeIndex, layout.size, layout.type, layout.normalized, next + layout.stride, (void*)&next);
         glEnableVertexAttribArray(attributeIndex);
         attributeIndex++;
+        next += layout.stride;
         buffer.Unbind();
         Unbind();
     }

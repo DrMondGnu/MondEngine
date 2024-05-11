@@ -5,25 +5,13 @@
 #ifndef MONDENGINE_PLATFORM_H
 #define MONDENGINE_PLATFORM_H
 
-#include "window.h"
-#include "platform/windows/windows_window.h"
+// OpenGL
+#ifdef MOND_ENGINE_OPENGL
+#include "Platform/OpenGL/OpenGLIndexBuffer.h"
+#include "Platform/OpenGL/OpenGLVertexBuffer.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
+#endif
 
-using namespace Mond;
-namespace Mond {
-    Window* MakeWindow(const WindowProperties& properties);
-
-    template <typename T>
-    struct PlatformCreator {
-        virtual ~PlatformCreator() = 0;
-    };
-
-    template <typename T>
-    T MakePlatformIndependent() {
-        PlatformCreator<T> creator;
-        return creator.Create();
-    }
-
-} // Mond
 
 #endif //MONDENGINE_PLATFORM_H
 

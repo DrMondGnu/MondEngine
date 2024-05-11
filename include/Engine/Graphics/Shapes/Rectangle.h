@@ -6,16 +6,19 @@
 #define MONDENGINE_RECTANGLE_H
 
 #include "Shape.h"
+#include "Engine/Platform.h"
 #include "../Core/VertexArray.h"
 
 namespace Mond::Graphics {
 
-
     class Rectangle : public Shape {
     public:
+        Rectangle();
+
         void Draw() const override;
     protected:
-        inline static VertexArray* Vao;
+        static void initVao();
+        inline static VertexArray* Vao = nullptr;
     };
 }
 

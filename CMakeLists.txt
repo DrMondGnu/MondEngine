@@ -23,8 +23,6 @@ add_library(MondEngine STATIC
         include/Engine/Shader/Shader.h
         src/util/file.cpp
         include/util/file.h
-        src/Engine/glid.cpp
-        include/Engine/glid.h
         include/util/opengl.h
         include/util/general.h
         src/Engine/window.cpp
@@ -42,7 +40,7 @@ add_library(MondEngine STATIC
         src/Engine/Event/KeyEvent.cpp
         include/Engine/Event/KeyEvent.h
         include/Engine/Platform.h
-        src/Engine/Platform.cpp
+        src/Engine/PlatformUtils.cpp
         src/Engine/Graphics/Drawable.cpp
         include/Engine/Graphics/Drawable.h
         src/Engine/Transform.cpp
@@ -68,16 +66,17 @@ add_library(MondEngine STATIC
         include/Engine/Graphics/Core/VertexBuffer.h
         src/Engine/Graphics/Core/IndexBuffer.cpp
         include/Engine/Graphics/Core/IndexBuffer.h
-        src/platform/OpenGL/OpenGlVertexBuffer.cpp
-        include/Platform/OpenGL/OpenGlVertexBuffer.h
-        src/platform/OpenGL/OpenGlVertexArray.cpp
-        include/Platform/OpenGL/OpenGlVertexArray.h
-        src/platform/OpenGL/OpenGlIndexBuffer.cpp
-        include/Platform/OpenGL/OpenGlIndexBuffer.h
+        src/platform/OpenGL/OpenGLVertexBuffer.cpp
+        include/Platform/OpenGL/OpenGLVertexBuffer.h
+        src/platform/OpenGL/OpenGLVertexArray.cpp
+        include/Platform/OpenGL/OpenGLVertexArray.h
+        src/platform/OpenGL/OpenGLIndexBuffer.cpp
+        include/Platform/OpenGL/OpenGLIndexBuffer.h
         src/Engine/Graphics/Core/Buffer.cpp
         include/Engine/Graphics/Core/Buffer.h
-        src/platform/OpenGL/OpenGlBuffer.cpp
-        include/Platform/OpenGL/OpenGlBuffer.h
+        src/platform/OpenGL/OpenGLBuffer.cpp
+        include/Platform/OpenGL/OpenGLBuffer.h
+        include/Engine/PlatformUtils.h
 )
 
 target_compile_definitions(MondEngine PRIVATE MOND_ENGINE_COMPILE PUBLIC MOND_ENGINE_OPENGL)

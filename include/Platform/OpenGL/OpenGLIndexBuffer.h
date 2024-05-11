@@ -5,9 +5,9 @@
 #ifndef MONDENGINE_OPENGLINDEXBUFFER_H
 #define MONDENGINE_OPENGLINDEXBUFFER_H
 
-#include "OpenGlBuffer.h"
+#include "OpenGLBuffer.h"
 #include "Engine/Graphics/Core/IndexBuffer.h"
-#include "Engine/Platform.h"
+#include "Engine/PlatformUtils.h"
 
 namespace Mond::Graphics::OpenGL {
 

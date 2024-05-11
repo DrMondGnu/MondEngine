@@ -9,8 +9,8 @@
 
 #include "RenderObject.h"
 #include "Renderer.h"
-#include "engine/Transform.h"
-#include "engine/Shader/DrawableShader.h"
+#include "Engine/Transform.h"
+#include "Engine/Shader/DrawableShader.h"
 
 namespace Mond {
 
@@ -25,9 +25,6 @@ namespace Mond {
         [[nodiscard]] virtual const DrawableShader& GetShader() const = 0;
         [[nodiscard]] virtual const glm::vec4& GetColor() const = 0;
     };
-
-    template <typename T>
-    concept IsDrawable = std::derived_from<T, Drawable>;
 } // Mond
 
 #endif //MONDENGINE_DRAWABLE_H

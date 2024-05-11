@@ -5,12 +5,12 @@
 #ifndef NINDO_TEXTURE_H
 #define NINDO_TEXTURE_H
 
-#include "glid.h"
 #include "library.h"
+#include "Graphics/Core/Bindable.h"
 
 namespace Mond {
 
-    class Texture2D : public GLID{
+    class Texture2D : public Bindable{
     public:
         // texture image dimensions
         unsigned int Width, Height; // width and height of loaded image in pixels
@@ -26,8 +26,8 @@ namespace Mond {
         MOND_API Texture2D();
         // generates texture from image data
         MOND_API void Generate(unsigned int width, unsigned int height, unsigned char* data);
-        MOND_API void bind() override;
-        MOND_API void unbind() override;
+        MOND_API void Bind() const override;
+        MOND_API void Unbind() const override;
     };
 
 } // Mond

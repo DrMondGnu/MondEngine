@@ -2,7 +2,7 @@
 // Created by MondGnu on 5/1/2024.
 //
 
-#include "Platform/OpenGL/OpenGlVertexBuffer.h"
+#include "Platform/OpenGL/OpenGLVertexBuffer.h"
 
 
 namespace Mond::Graphics::OpenGL {
